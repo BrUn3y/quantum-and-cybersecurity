@@ -1,0 +1,769 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Presentación de una hora sobre computación cuántica, riesgo criptográfico, PQC y un taller de estado de Bell con Qiskit.">
+  <title>Ciberseguridad en la era cuántica</title>
+  <style>
+    :root {
+      --ink: #161616; --muted: #525252; --line: #d6d6d6; --paper: #f4f4f4;
+      --white: #fff; --purple: #6929c4; --violet: #8a3ffc; --blue: #0f62fe;
+      --cyan: #1192e8; --magenta: #ee5396; --red: #da1e28; --green: #198038;
+      --slide-pad: clamp(2rem, 5.2vw, 5.8rem);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    body { font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif; color: var(--ink); }
+    button, input { font: inherit; }
+    a { color: inherit; }
+    .deck { width: 100%; height: 100%; position: relative; background: var(--paper); }
+    .slide {
+      position: absolute; inset: 0; display: none; overflow: hidden;
+      padding: var(--slide-pad); background: var(--white);
+      grid-template-rows: auto 1fr auto; gap: clamp(1rem, 2vh, 2rem);
+    }
+    .slide.active { display: grid; animation: enter .28s ease-out; }
+    @keyframes enter { from { opacity: .2; transform: translateX(1.2rem); } }
+    @media (prefers-reduced-motion: reduce) { .slide.active { animation: none; } }
+    .slide.dark { color: white; background: #161616; }
+    .slide.purple { color: white; background: var(--purple); }
+    .slide.blue { color: white; background: var(--blue); }
+    .slide.soft { background: var(--paper); }
+    .eyebrow { font-size: clamp(.75rem, 1.1vw, 1rem); letter-spacing: .11em; text-transform: uppercase; font-weight: 600; }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(3rem, 7.5vw, 7.2rem); line-height: .94; font-weight: 300; letter-spacing: -.045em; }
+    h2 { font-size: clamp(2.3rem, 5vw, 5rem); line-height: 1; font-weight: 300; letter-spacing: -.035em; max-width: 15ch; }
+    h3 { font-size: clamp(1.15rem, 2vw, 1.7rem); line-height: 1.15; }
+    .lede { font-size: clamp(1.2rem, 2.25vw, 2.1rem); line-height: 1.28; max-width: 34ch; }
+    .big { font-size: clamp(3.5rem, 9.5vw, 9rem); line-height: .9; font-weight: 300; letter-spacing: -.06em; }
+    .giant { font-size: clamp(5rem, 15vw, 14rem); line-height: .8; font-weight: 300; letter-spacing: -.07em; }
+    .muted { color: var(--muted); }
+    .dark .muted, .purple .muted, .blue .muted { color: #c6c6c6; }
+    .accent { color: var(--magenta); }
+    .violet { color: var(--violet); }
+    .blue-text { color: var(--blue); }
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .topline { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .section-chip { padding: .45rem .7rem; background: var(--ink); color: white; font-size: .8rem; }
+    .dark .section-chip { background: var(--magenta); color: var(--ink); }
+    .content { min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+    .footer { display: flex; justify-content: space-between; gap: 1rem; align-items: end; color: var(--muted); font-size: clamp(.62rem, .8vw, .78rem); }
+    .dark .footer, .purple .footer, .blue .footer { color: #c6c6c6; }
+    .grid2, .grid3, .grid4 { display: grid; gap: clamp(1rem, 2.5vw, 2.5rem); align-items: stretch; }
+    .grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .split-hero { display: grid; grid-template-columns: 1.22fr .78fr; gap: 5vw; align-items: center; height: 100%; }
+    .card { border-top: 3px solid var(--ink); padding: 1.1rem 0; min-width: 0; }
+    .card.magenta { border-color: var(--magenta); }
+    .card.purple-line { border-color: var(--violet); }
+    .card.blue-line { border-color: var(--blue); }
+    .card p { margin-top: .7rem; font-size: clamp(.9rem, 1.45vw, 1.3rem); line-height: 1.35; }
+    .number { font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 300; line-height: 1; }
+    .agenda { display: grid; grid-template-columns: 4rem 1fr 5rem; align-items: center; border-top: 1px solid var(--line); padding: clamp(.55rem, 1.1vh, 1rem) 0; font-size: clamp(1rem, 1.7vw, 1.45rem); }
+    .agenda:last-child { border-bottom: 1px solid var(--line); }
+    .agenda strong { font-weight: 500; }
+    .agenda time { text-align: right; color: var(--muted); }
+    .compare { display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; }
+    .compare > div { padding: clamp(2rem, 5vw, 5rem); display: flex; flex-direction: column; justify-content: center; gap: 1.4rem; }
+    .compare > div:first-child { background: #e0e0e0; }
+    .compare > div:last-child { background: var(--purple); color: white; }
+    .bit { font-size: clamp(4rem, 12vw, 11rem); letter-spacing: .04em; }
+    .state { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .equation { font-family: Georgia, serif; font-size: clamp(2rem, 4.3vw, 4.5rem); line-height: 1.15; }
+    .callout { border-left: .4rem solid var(--magenta); padding-left: 1.25rem; }
+    .rule { height: 1px; background: var(--line); margin: 1rem 0; }
+    ul.clean { padding: 0; margin: 1rem 0 0; list-style: none; }
+    ul.clean li { border-top: 1px solid var(--line); padding: .7rem 0; font-size: clamp(.95rem, 1.5vw, 1.3rem); }
+    .dark ul.clean li { border-color: #525252; }
+    .diagram { width: 100%; max-height: 61vh; }
+    .asset { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+    .section-number { position: absolute; right: 4vw; bottom: 2vw; font-size: clamp(8rem, 25vw, 23rem); line-height: .7; color: rgba(255,255,255,.12); font-weight: 300; }
+    .section-title { align-self: center; position: relative; z-index: 1; }
+    .section-title h2 { max-width: 12ch; font-size: clamp(3rem, 8vw, 8rem); }
+    .timeline { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+    .timeline::before { content:""; height: 4px; background: linear-gradient(90deg,var(--blue),var(--violet),var(--magenta)); position: absolute; top: .65rem; left: 0; right: 0; }
+    .milestone { position: relative; padding-top: 2.2rem; }
+    .milestone::before { content:""; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--white); border: 4px solid var(--violet); position: absolute; top: 0; }
+    .milestone h3 { margin-bottom: .6rem; }
+    .risk { padding: 1.2rem; background: #262626; min-height: 16rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .risk .icon { font-size: 2rem; }
+    .crypto-map { display: grid; grid-template-columns: 1fr 8rem 1fr; gap: 1rem; align-items: center; }
+    .crypto-box { padding: 1.5rem; min-height: 11rem; border: 1px solid var(--line); }
+    .crypto-box h3 { margin-bottom: .6rem; }
+    .arrow { text-align: center; font-size: 4rem; color: var(--magenta); }
+    .standard { padding: 1.4rem; min-height: 17rem; display: flex; flex-direction: column; justify-content: space-between; background: var(--paper); border-bottom: .55rem solid; }
+    .standard:nth-child(1) { border-color: var(--blue); }
+    .standard:nth-child(2) { border-color: var(--violet); }
+    .standard:nth-child(3) { border-color: var(--magenta); }
+    .standard .tag { font-family: ui-monospace, monospace; font-size: .85rem; }
+    .standard h3 { font-size: clamp(1.5rem, 2.5vw, 2.4rem); }
+    .standard p { line-height: 1.4; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; gap: .7rem; }
+    .flow > div:not(.chev) { padding: 1rem; background: var(--paper); min-height: 8rem; }
+    .flow .chev { text-align: center; font-size: 2rem; color: var(--violet); }
+    .mosca { display: grid; grid-template-columns: .85fr 1.15fr; gap: 4vw; align-items: center; }
+    .mosca-controls label { display: grid; grid-template-columns: 1fr 5rem; gap: 1rem; margin: 1rem 0 .3rem; }
+    .mosca-controls output { text-align: right; font-family: ui-monospace, monospace; }
+    input[type="range"] { width: 100%; accent-color: var(--violet); }
+    .mosca-result { padding: 1.4rem; margin-top: 1.2rem; background: var(--ink); color: white; font-size: clamp(1.1rem, 1.7vw, 1.5rem); }
+    .mosca-result.danger { background: var(--red); }
+    .steps { counter-reset: step; display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    .steps > div { counter-increment: step; padding: 1rem; border-top: .35rem solid var(--violet); background: var(--paper); }
+    .steps > div::before { content: "0" counter(step); display: block; font-size: 2rem; margin-bottom: 1.2rem; color: var(--violet); }
+    pre { margin: 0; padding: 1.2rem; overflow: auto; background: #161616; color: #f4f4f4; font: clamp(.72rem, 1.22vw, 1.08rem)/1.45 "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace; tab-size: 2; }
+    code .kw { color: #be95ff; } code .fn { color: #78a9ff; } code .str { color: #ff7eb6; } code .cm { color: #a8a8a8; }
+    .circuit { background: var(--paper); padding: 1.3rem; }
+    .histogram { height: 21rem; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; align-items: end; border-bottom: 2px solid var(--ink); padding: 0 1rem; }
+    .bar-wrap { height: 100%; display: flex; flex-direction: column; justify-content: end; align-items: center; gap: .5rem; }
+    .bar { width: min(6rem, 70%); background: var(--violet); min-height: .2rem; transition: height .5s ease; }
+    .bar.noise { background: var(--magenta); }
+    .bar-label { font-family: ui-monospace, monospace; }
+    .pill { display: inline-block; padding: .35rem .65rem; border: 1px solid currentColor; border-radius: 999px; font-size: .85rem; }
+    .note { background: #fff1f1; border-left: .35rem solid var(--red); padding: 1rem; line-height: 1.35; }
+    .success { background: #defbe6; border-left: .35rem solid var(--green); padding: 1rem; line-height: 1.35; }
+    .speaker-notes { display: none; }
+    .notes-panel { position: fixed; z-index: 30; right: 1rem; top: 1rem; bottom: 4.5rem; width: min(32rem, 42vw); overflow: auto; background: rgba(22,22,22,.97); color: white; padding: 1.4rem; box-shadow: 0 12px 40px #0008; display: none; line-height: 1.5; }
+    .notes-panel.open { display: block; }
+    .notes-panel h3 { color: var(--magenta); margin-bottom: 1rem; }
+    .controls { position: fixed; z-index: 40; left: 0; right: 0; bottom: 0; height: 3.2rem; display: flex; align-items: center; gap: .35rem; padding: .45rem .7rem; color: white; background: rgba(22,22,22,.94); }
+    .controls button { border: 0; color: white; background: transparent; padding: .45rem .7rem; cursor: pointer; }
+    .controls button:hover, .controls button:focus-visible { background: #393939; outline: 2px solid white; }
+    .progress { flex: 1; height: .25rem; background: #525252; margin: 0 .6rem; }
+    .progress > span { display: block; height: 100%; width: 0; background: var(--magenta); transition: width .2s; }
+    .counter { min-width: 5rem; text-align: center; font-variant-numeric: tabular-nums; }
+    .timer { min-width: 4.5rem; color: #c6c6c6; font-variant-numeric: tabular-nums; }
+    .help { position: fixed; z-index: 50; inset: 12% 18%; display: none; padding: 2rem; color: white; background: rgba(22,22,22,.98); box-shadow: 0 20px 60px #000; }
+    .help.open { display: block; }
+    .help kbd { display: inline-block; min-width: 2rem; margin-right: .5rem; padding: .2rem .4rem; border: 1px solid #8d8d8d; text-align: center; }
+    .help p { margin: .7rem 0; }
+    @media (max-width: 850px) {
+      .grid3, .grid4 { grid-template-columns: repeat(2, 1fr); }
+      .split-hero, .mosca { grid-template-columns: 1fr; }
+      .split-hero .asset { max-height: 29vh; }
+      .flow { grid-template-columns: 1fr; }
+      .flow .chev { transform: rotate(90deg); }
+      .crypto-map { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+      .notes-panel { width: calc(100vw - 2rem); }
+    }
+    @media print {
+      html, body { overflow: visible; background: white; }
+      .deck { height: auto; }
+      .slide, .slide.active { position: relative; display: grid; width: 13.333in; height: 7.5in; page-break-after: always; animation: none; }
+      .controls, .notes-panel, .help { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+<main class="deck" id="deck" aria-live="polite">
+
+  <section class="slide dark active" data-section="Apertura" data-minutes="0.5">
+    <div class="topline"><span class="eyebrow">Computación cuántica × ciberseguridad</span><span class="pill">60 min</span></div>
+    <div class="content split-hero">
+      <div>
+        <h1>Ciberseguridad<br>en la era <span class="accent">cuántica</span></h1>
+        <p class="lede" style="margin-top:2rem">De los qubits a una estrategia de migración —y a un procesador cuántico real.</p>
+      </div>
+      <img class="asset" src="assets/hardware-magenta.svg" alt="Ilustración de una persona trabajando frente a una computadora cuántica">
+    </div>
+    <div class="footer"><span>Edgar Bruney Castañeda Torres · Qiskit Advocate</span><span>Octubre 2026</span></div>
+    <aside class="speaker-notes"><strong>Objetivo.</strong> Abrir con el resultado: al terminar, la audiencia podrá distinguir la amenaza real del ruido mediático, nombrar los estándares PQC y ejecutar un estado de Bell. Aclara que el taller no “rompe RSA”; enseña el modelo de cómputo.</aside>
+  </section>
+
+  <section class="slide dark" data-section="Apertura" data-minutes="1">
+    <div class="topline"><span class="eyebrow">La pregunta incómoda</span><span class="section-chip">Ahora</span></div>
+    <div class="content">
+      <p class="giant accent">¿Y si ya<br>lo copiaron?</p>
+      <p class="lede" style="margin-top:2rem">Un atacante no necesita descifrar hoy. Puede capturar hoy y esperar a tener la capacidad mañana.</p>
+    </div>
+    <div class="footer"><span>“Harvest now, decrypt later”</span><span>Fuente: CISA · NSA · NIST, 2023</span></div>
+    <aside class="speaker-notes">Pide que piensen en el dato más antiguo que su organización todavía debe mantener secreto. No se trata de predecir la fecha exacta de una máquina criptográficamente relevante: la vida útil del dato ya pone el reloj en marcha.</aside>
+  </section>
+
+  <section class="slide soft" data-section="Apertura" data-minutes="0.5">
+    <div class="topline"><span class="eyebrow">Ruta de 60 minutos</span><span class="muted">Teoría → riesgo → acción → código</span></div>
+    <div class="content">
+      <div class="agenda"><span>01</span><strong>Intuición cuántica y Qiskit</strong><time>8 min</time></div>
+      <div class="agenda"><span>02</span><strong>La amenaza a la criptografía</strong><time>10 min</time></div>
+      <div class="agenda"><span>03</span><strong>Defensa poscuántica</strong><time>8 min</time></div>
+      <div class="agenda"><span>04</span><strong>Migración y agilidad criptográfica</strong><time>7 min</time></div>
+      <div class="agenda"><span>05</span><strong>Taller: estado de Bell en IBM Quantum</strong><time>22 min</time></div>
+      <div class="agenda"><span>06</span><strong>Preguntas y cierre</strong><time>5 min</time></div>
+    </div>
+    <div class="footer"><span>El plan original sumaba 100 minutos; esta versión cabe en una hora.</span><span>Ritmo sugerido</span></div>
+    <aside class="speaker-notes">Usa esta diapositiva para poner expectativas. El cronómetro integrado inicia con la tecla T. El taller conserva el bloque más largo porque es el ancla memorable.</aside>
+  </section>
+
+  <section class="slide purple" data-section="01 · Fundamentos" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">01</span><span class="pill">8 min</span></div>
+    <div class="content section-title"><p class="eyebrow">Primero, la intuición</p><h2>Computación cuántica</h2></div>
+    <span class="section-number">01</span>
+    <div class="footer"><span>Superposición · entrelazamiento · arquitectura · Qiskit</span><span></span></div>
+    <aside class="speaker-notes">Transición: “Antes de hablar de la amenaza, necesitamos dos ideas y una arquitectura”.</aside>
+  </section>
+
+  <section class="slide" data-section="01 · Fundamentos" data-minutes="1.2">
+    <div class="topline"><span class="eyebrow">Bit vs qubit</span><span class="section-chip">Modelo de información</span></div>
+    <div class="content" style="margin:calc(var(--slide-pad) * -1); margin-top:0; margin-bottom:0">
+      <div class="compare">
+        <div><p class="eyebrow">Clásico</p><div class="bit">0 <span class="muted">o</span> 1</div><p class="lede">Un bit tiene un valor definido al leerlo.</p></div>
+        <div><p class="eyebrow">Cuántico</p><div class="equation">α|0⟩ + β|1⟩</div><p class="lede">Un qubit es un estado; al medir obtenemos un resultado clásico con probabilidades.</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>|α|² + |β|² = 1</span><span>No es “un bit misterioso”: es amplitud, fase y medición.</span></div>
+    <aside class="speaker-notes">Evita decir que “el qubit es 0 y 1 al mismo tiempo” sin matiz. Las amplitudes son complejas; sus módulos al cuadrado dan probabilidades. La fase relativa, aunque invisible en una medición directa, permite interferencia.</aside>
+  </section>
+
+  <section class="slide soft" data-section="01 · Fundamentos" data-minutes="1.4">
+    <div class="topline"><span class="eyebrow">Superposición</span><span class="section-chip">Interferencia</span></div>
+    <div class="content grid2">
+      <div>
+        <h2>No son “muchas respuestas gratis”</h2>
+        <p class="lede" style="margin-top:1.5rem">El algoritmo diseña interferencia: amplifica amplitudes útiles y cancela otras antes de medir.</p>
+      </div>
+      <div class="card magenta">
+        <p class="equation">H|0⟩ = (|0⟩ + |1⟩)/√2</p>
+        <div class="rule"></div>
+        <p>Una compuerta Hadamard prepara probabilidades 50/50 en la base computacional.</p>
+        <p class="muted">Cada shot produce solo 0 o 1; muchos shots revelan la distribución.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Idea clave: amplitudes primero, probabilidades al medir.</span><span>IBM Quantum Learning</span></div>
+    <aside class="speaker-notes">Analogía breve: dos ondas pueden sumarse o cancelarse. El beneficio cuántico surge de estructurar esas interferencias; no de leer todos los caminos simultáneamente.</aside>
+  </section>
+
+  <section class="slide dark" data-section="01 · Fundamentos" data-minutes="1.4">
+    <div class="topline"><span class="eyebrow">Entrelazamiento</span><span class="section-chip">Correlación no separable</span></div>
+    <div class="content grid2">
+      <div>
+        <p class="equation accent">|Φ⁺⟩ = (|00⟩ + |11⟩)/√2</p>
+        <p class="lede" style="margin-top:2rem">El sistema completo tiene una descripción precisa; cada qubit por separado no tiene un estado puro independiente.</p>
+      </div>
+      <div>
+        <div class="grid2">
+          <div class="card magenta"><span class="number">≈50%</span><p class="state">00</p></div>
+          <div class="card purple-line"><span class="number">≈50%</span><p class="state">11</p></div>
+        </div>
+        <div class="rule" style="background:#525252"></div>
+        <p class="lede">Resultados correlacionados. No permite enviar información más rápido que la luz.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Esto es lo que construiremos en el taller.</span><span>Base Z</span></div>
+    <aside class="speaker-notes">Matiz importante: ver 00/11 no prueba por sí solo el entrelazamiento; una mezcla clásica puede producir el mismo histograma en Z. Para demostrarlo rigurosamente hay que medir correlaciones en bases incompatibles o realizar tomografía/testigos. En el taller diremos “evidencia de correlación compatible con el estado preparado”.</aside>
+  </section>
+
+  <section class="slide" data-section="01 · Fundamentos" data-minutes="1.2">
+    <div class="topline"><span class="eyebrow">Dos arquitecturas</span><span class="section-chip">No reemplazo: colaboración</span></div>
+    <div class="content">
+      <svg class="diagram" viewBox="0 0 1100 420" role="img" aria-label="Comparación entre arquitectura clásica y flujo híbrido cuántico">
+        <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8a3ffc"/></marker></defs>
+        <text x="30" y="45" font-size="28">Clásica</text><rect x="30" y="75" width="300" height="120" fill="#e0e0e0"/><text x="60" y="145" font-size="24">CPU / GPU + memoria</text>
+        <text x="30" y="270" font-size="28">Cuántica híbrida</text>
+        <rect x="30" y="300" width="190" height="90" fill="#d0e2ff"/><text x="78" y="353" font-size="23">Aplicación</text>
+        <path d="M230 345 H355" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
+        <rect x="370" y="300" width="190" height="90" fill="#e8daff"/><text x="420" y="340" font-size="23">Runtime</text><text x="407" y="370" font-size="18">orquestación</text>
+        <path d="M570 345 H695" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
+        <rect x="710" y="300" width="160" height="90" fill="#ffd6e8"/><text x="766" y="353" font-size="23">QPU</text>
+        <path d="M880 345 H990 V135 H350" fill="none" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
+        <text x="492" y="115" font-size="22" fill="#525252">optimizar → ejecutar → medir → posprocesar</text>
+      </svg>
+    </div>
+    <div class="footer"><span>La QPU es un acelerador especializado dentro de un flujo clásico.</span><span>Qiskit Patterns</span></div>
+    <aside class="speaker-notes">Describe la pila: programa y optimización clásicas; compilación a instrucciones del dispositivo; electrónica de control; QPU; medición y análisis clásicos. Recalca que la latencia de nube y las colas son parte de la experiencia real.</aside>
+  </section>
+
+  <section class="slide soft" data-section="01 · Fundamentos" data-minutes="1.4">
+    <div class="topline"><span class="eyebrow">Ecosistema</span><span class="section-chip">IBM Quantum + Qiskit</span></div>
+    <div class="content">
+      <div class="steps">
+        <div><h3>Mapear</h3><p>Expresar el problema en circuitos y observables.</p></div>
+        <div><h3>Optimizar</h3><p>Transpilar a la ISA, conectividad y compuertas de la QPU.</p></div>
+        <div><h3>Ejecutar</h3><p>Usar primitivas como Sampler o Estimator.</p></div>
+        <div><h3>Analizar</h3><p>Interpretar distribuciones, ruido e incertidumbre.</p></div>
+      </div>
+      <p class="lede" style="margin-top:2rem">Qiskit SDK construye y transforma. IBM Quantum Platform autentica, agenda y ejecuta en QPUs.</p>
+    </div>
+    <div class="footer"><span>El taller recorre las cuatro etapas.</span><span>quantum.cloud.ibm.com</span></div>
+    <aside class="speaker-notes">Qiskit es software abierto para circuitos, operadores y primitivas. El servicio de cómputo de IBM da acceso a hardware. Evita llamar a Qiskit “lenguaje”: es un SDK/ecosistema.</aside>
+  </section>
+
+  <section class="slide dark" data-section="02 · Amenaza" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">02</span><span class="pill">10 min</span></div>
+    <div class="content section-title"><p class="eyebrow">La deuda ya existe</p><h2>La amenaza criptográfica</h2></div>
+    <span class="section-number">02</span>
+    <div class="footer"><span>Datos longevos · Shor · impacto real</span><span></span></div>
+    <aside class="speaker-notes">Transición: “El riesgo no comienza cuando aparezca la máquina; comienza cuando un dato capturado hoy siga siendo valioso entonces”.</aside>
+  </section>
+
+  <section class="slide dark" data-section="02 · Amenaza" data-minutes="1.6">
+    <div class="topline"><span class="eyebrow">Capturar ahora, descifrar después</span><span class="section-chip">HNDL</span></div>
+    <div class="content">
+      <div class="timeline">
+        <div class="milestone"><h3>Hoy</h3><p>Interceptar tráfico o robar archivos cifrados.</p></div>
+        <div class="milestone"><h3>Espera</h3><p>Conservar lo que mantenga valor: historiales, diseños, diplomacia.</p></div>
+        <div class="milestone"><h3>CRQC</h3><p>Descifrar material protegido con criptografía pública vulnerable.</p></div>
+      </div>
+      <div class="callout" style="margin-top:3rem"><p class="lede">La variable urgente no es solo “cuándo llega la computadora”, sino <strong>cuánto tiempo debe vivir el secreto</strong>.</p></div>
+    </div>
+    <div class="footer"><span>CRQC = computadora cuántica criptanalíticamente relevante</span><span>CISA · NSA · NIST</span></div>
+    <aside class="speaker-notes">CISA/NSA/NIST recomiendan inventario y hoja de ruta desde 2023. HNDL afecta principalmente confidencialidad de datos históricos; para firmas, el riesgo futuro se centra además en suplantación y actualizaciones falsas cuando exista capacidad.</aside>
+  </section>
+
+  <section class="slide dark" data-section="02 · Amenaza" data-minutes="1.5">
+    <div class="topline"><span class="eyebrow">Tres historias de pérdida</span><span class="muted">Escenarios de riesgo, no incidentes cuánticos reportados</span></div>
+    <div class="content grid3">
+      <article class="risk"><span class="icon">✚</span><div><h3>Salud</h3><p>Expedientes con décadas de vigencia permiten extorsión, fraude o discriminación.</p></div><span class="pill">confidencialidad</span></article>
+      <article class="risk"><span class="icon">◇</span><div><h3>Propiedad intelectual</h3><p>Diseños, fórmulas y estrategia pierden ventaja competitiva años después del robo.</p></div><span class="pill">valor económico</span></article>
+      <article class="risk"><span class="icon">⌁</span><div><h3>Gobierno</h3><p>Comunicaciones diplomáticas o de seguridad revelan fuentes, alianzas y decisiones.</p></div><span class="pill">impacto sistémico</span></article>
+    </div>
+    <div class="footer"><span>Priorizar por sensibilidad × longevidad × exposición.</span><span>Modelo de amenaza</span></div>
+    <aside class="speaker-notes">No presentes estos ejemplos como ataques cuánticos ocurridos. Son escenarios plausibles para el ejercicio de riesgo. Pide a la audiencia identificar cuál existe en su sector.</aside>
+  </section>
+
+  <section class="slide" data-section="02 · Amenaza" data-minutes="2">
+    <div class="topline"><span class="eyebrow">El mapa de impacto</span><span class="section-chip">Shor</span></div>
+    <div class="content crypto-map">
+      <div class="crypto-box"><h3>Problema matemático</h3><p class="lede">Factorización entera<br><span class="muted">RSA</span></p><p class="lede" style="margin-top:1rem">Logaritmo discreto<br><span class="muted">DH · DSA · ECC</span></p></div>
+      <div class="arrow">→</div>
+      <div class="crypto-box" style="border-color:var(--red)"><h3 class="red">Algoritmo de Shor</h3><p class="lede">Tiempo polinómico en una computadora cuántica tolerante a fallos suficientemente grande.</p></div>
+    </div>
+    <div class="footer"><span>Impacta intercambio de claves, cifrado asimétrico y firmas.</span><span>Shor, FOCS 1994</span></div>
+    <aside class="speaker-notes">RSA depende de la dificultad de factorizar. ECC y Diffie-Hellman dependen de variantes del logaritmo discreto. Shor resuelve ambas familias. Precisión: TLS usa típicamente RSA/ECDSA para autenticación y ECDHE para acuerdo; el contenido se cifra simétricamente después.</aside>
+  </section>
+
+  <section class="slide soft" data-section="02 · Amenaza" data-minutes="1.8">
+    <div class="topline"><span class="eyebrow">Shor sin humo</span><span class="section-chip">Intuición</span></div>
+    <div class="content grid4">
+      <div class="card blue-line"><span class="number">1</span><h3>Reformular</h3><p>Convertir factorización/log discreto en búsqueda de periodo.</p></div>
+      <div class="card purple-line"><span class="number">2</span><h3>Superponer</h3><p>Evaluar coherentemente una función periódica.</p></div>
+      <div class="card magenta"><span class="number">3</span><h3>Interferir</h3><p>La QFT concentra amplitud en información del periodo.</p></div>
+      <div class="card"><span class="number">4</span><h3>Recuperar</h3><p>Posprocesamiento clásico deriva factores o la clave.</p></div>
+    </div>
+    <div class="footer"><span>La ventaja viene de la estructura algebraica, no de “probar todas las claves”.</span><span>QFT = transformada cuántica de Fourier</span></div>
+    <aside class="speaker-notes">Esta explicación basta para audiencia general. Si preguntan: la parte cuántica estima un periodo; fracciones continuas y máximo común divisor completan la factorización. No intentes prometer fechas o números fijos de qubits.</aside>
+  </section>
+
+  <section class="slide" data-section="02 · Amenaza" data-minutes="1.8">
+    <div class="topline"><span class="eyebrow">Calibrar el riesgo</span><span class="section-chip">Ni pánico ni espera</span></div>
+    <div class="content grid2">
+      <div>
+        <h2>Hoy no existe una CRQC pública</h2>
+        <p class="lede" style="margin-top:1.5rem">El Bell state de dos qubits no escala mágicamente a romper RSA‑2048.</p>
+      </div>
+      <div>
+        <div class="success"><strong>Sí:</strong> inventariar, probar PQC, exigir hoja de ruta a proveedores y diseñar agilidad.</div>
+        <div class="note" style="margin-top:1rem"><strong>No:</strong> afirmar que “todo el cifrado está roto”. Shor amenaza clave pública; Grover ofrece una aceleración cuadrática sobre búsqueda simétrica.</div>
+        <p style="margin-top:1rem">Práctica común: claves simétricas robustas (p. ej., AES‑256) y migración de RSA/ECC hacia PQC.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Riesgo futuro + migración lenta = trabajo presente.</span><span>NIST PQC</span></div>
+    <aside class="speaker-notes">Un ataque de Grover ideal reduce aproximadamente de 2^k a 2^(k/2) consultas, pero con costos físicos significativos. Evita simplificar a “AES‑128 roto”; la recomendación práctica depende del perfil y estándares aplicables.</aside>
+  </section>
+
+  <section class="slide blue" data-section="03 · Defensa" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">03</span><span class="pill">8 min</span></div>
+    <div class="content section-title"><p class="eyebrow">Defender sin una QPU</p><h2>Criptografía poscuántica</h2></div>
+    <span class="section-number">03</span>
+    <div class="footer"><span>Algoritmos clásicos · nuevos supuestos · estándares finales</span><span></span></div>
+    <aside class="speaker-notes">Transición: “La defensa principal no requiere computadoras cuánticas”.</aside>
+  </section>
+
+  <section class="slide" data-section="03 · Defensa" data-minutes="1.5">
+    <div class="topline"><span class="eyebrow">PQC en una frase</span><span class="section-chip">Criptografía clásica</span></div>
+    <div class="content">
+      <p class="big">Nuevas matemáticas.<br><span class="violet">Las mismas computadoras.</span></p>
+      <div class="grid3" style="margin-top:2.2rem">
+        <div class="card blue-line"><h3>Resiste</h3><p>Ataques conocidos de computadoras clásicas y cuánticas.</p></div>
+        <div class="card purple-line"><h3>Reemplaza</h3><p>Acuerdo/encapsulación de claves y firmas vulnerables.</p></div>
+        <div class="card magenta"><h3>No es QKD</h3><p>No requiere enlaces cuánticos ni hardware fotónico especial.</p></div>
+      </div>
+    </div>
+    <div class="footer"><span>PQC suele combinarse con cifrado simétrico para los datos.</span><span>NIST</span></div>
+    <aside class="speaker-notes">Diferencia KEM/cifrado: ML-KEM establece un secreto compartido; un AEAD simétrico cifra los datos. Diferencia PQC/QKD: PQC es software/protocolos clásicos; QKD distribuye claves mediante propiedades físicas y tiene otro modelo operativo.</aside>
+  </section>
+
+  <section class="slide soft" data-section="03 · Defensa" data-minutes="2.4">
+    <div class="topline"><span class="eyebrow">Estándares NIST finalizados</span><span class="section-chip">13 ago 2024</span></div>
+    <div class="content grid3">
+      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem">Encapsulación de claves basada en retículas modulares. Principal opción para establecer secretos.</p></div><span class="pill">antes Kyber</span></article>
+      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem">Firma digital basada en retículas modulares. Principal estándar de firmas PQC.</p></div><span class="pill">antes Dilithium</span></article>
+      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem">Firma sin estado basada en hashes. Alternativa con supuestos matemáticos distintos.</p></div><span class="pill">antes SPHINCS+</span></article>
+    </div>
+    <div class="footer"><span>NIST: listos para uso; no es necesario esperar futuros estándares.</span><span>FIPS 203 · 204 · 205</span></div>
+    <aside class="speaker-notes">No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo, pero no reemplaza la recomendación de empezar con los estándares finales.</aside>
+  </section>
+
+  <section class="slide" data-section="03 · Defensa" data-minutes="1.8">
+    <div class="topline"><span class="eyebrow">Cómo encaja en un sistema</span><span class="section-chip">Patrón híbrido</span></div>
+    <div class="content">
+      <div class="flow">
+        <div><h3>Identidad</h3><p>ML‑DSA / SLH‑DSA autentica artefactos y mensajes.</p></div><div class="chev">›</div>
+        <div><h3>Secreto</h3><p>ML‑KEM encapsula una clave compartida.</p></div><div class="chev">›</div>
+        <div><h3>Datos</h3><p>AES‑GCM o ChaCha20‑Poly1305 cifra el volumen.</p></div>
+      </div>
+      <div class="callout" style="margin-top:2.4rem"><p class="lede">Durante la transición, combinaciones híbridas clásica + PQC reducen el riesgo de depender de una sola familia.</p></div>
+    </div>
+    <div class="footer"><span>La composición del protocolo importa tanto como el algoritmo.</span><span>Validar bibliotecas y perfiles aprobados</span></div>
+    <aside class="speaker-notes">“Híbrido” debe estar definido por un protocolo: ambos secretos deben combinarse correctamente. No inventar concatenaciones. Usar implementaciones de proveedores y perfiles estandarizados; probar tamaño de mensajes, latencia, certificados, HSM y observabilidad.</aside>
+  </section>
+
+  <section class="slide soft" data-section="03 · Defensa" data-minutes="1.5">
+    <div class="topline"><span class="eyebrow">Costo de cambiar</span><span class="section-chip">La capa olvidada</span></div>
+    <div class="content grid2">
+      <div><p class="big">PQC no es<br><span class="red">buscar y reemplazar.</span></p></div>
+      <div><ul class="clean"><li>Claves, firmas y certificados más grandes</li><li>Protocolos, MTU, almacenamiento y rendimiento</li><li>PKI, HSM, firmware, arranque seguro y CI/CD</li><li>Dependencias embebidas y terceros</li><li>Interoperabilidad, rollback y telemetría</li></ul></div>
+    </div>
+    <div class="footer"><span>Por eso la migración empieza con descubrimiento.</span><span>CISA Quantum‑Readiness</span></div>
+    <aside class="speaker-notes">Da un ejemplo: cambiar una firma afecta certificados, validadores, formato de artefactos, dispositivos con buffers pequeños y procesos de recuperación. El inventario debe incluir dónde, para qué y por cuánto tiempo se usa criptografía.</aside>
+  </section>
+
+  <section class="slide purple" data-section="04 · Migración" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">04</span><span class="pill">7 min</span></div>
+    <div class="content section-title"><p class="eyebrow">Convertir incertidumbre en decisiones</p><h2>Migración y agilidad</h2></div>
+    <span class="section-number">04</span>
+    <div class="footer"><span>Inventario · Mosca · hoja de ruta</span><span></span></div>
+    <aside class="speaker-notes">Transición: “No podemos gestionar una fecha incierta; sí podemos gestionar exposición, dependencia y tiempo de migración”.</aside>
+  </section>
+
+  <section class="slide" data-section="04 · Migración" data-minutes="1.6">
+    <div class="topline"><span class="eyebrow">Agilidad criptográfica</span><span class="section-chip">Capacidad, no producto</span></div>
+    <div class="content grid2">
+      <div><h2>Cambiar sin reconstruir todo</h2><p class="lede" style="margin-top:1.5rem">Políticas, interfaces y datos permiten sustituir algoritmos, parámetros, claves y proveedores con seguridad.</p></div>
+      <div><ul class="clean"><li><strong>Descubrible:</strong> SBOM/CBOM y dueños claros</li><li><strong>Configurable:</strong> algoritmos fuera del código de negocio</li><li><strong>Observable:</strong> saber qué negoció cada conexión</li><li><strong>Probable:</strong> suites duales, canarios y rollback</li><li><strong>Gobernable:</strong> políticas y fechas de retiro</li></ul></div>
+    </div>
+    <div class="footer"><span>Meta: reducir el tiempo Y de la desigualdad de Mosca.</span><span>Crypto agility</span></div>
+    <aside class="speaker-notes">La agilidad no significa permitir cualquier algoritmo; significa poder cambiar dentro de una política segura. Un “toggle” sin inventario, telemetría ni pruebas puede aumentar el riesgo.</aside>
+  </section>
+
+  <section class="slide soft" data-section="04 · Migración" data-minutes="2.5">
+    <div class="topline"><span class="eyebrow">Desigualdad de Mosca</span><span class="section-chip">X + Y &gt; Z → exposición</span></div>
+    <div class="content mosca">
+      <div>
+        <p class="equation"><span class="blue-text">X</span> + <span class="violet">Y</span> &gt; <span class="red">Z</span></p>
+        <ul class="clean"><li><span class="blue-text"><strong>X</strong></span> vida secreta del dato</li><li><span class="violet"><strong>Y</strong></span> tiempo para migrar</li><li><span class="red"><strong>Z</strong></span> tiempo hasta una CRQC</li></ul>
+      </div>
+      <div class="mosca-controls">
+        <label for="x">X · vida del dato <output id="xo">10 años</output></label><input id="x" type="range" min="0" max="30" value="10">
+        <label for="y">Y · migración <output id="yo">5 años</output></label><input id="y" type="range" min="0" max="20" value="5">
+        <label for="z">Z · llegada CRQC <output id="zo">12 años</output></label><input id="z" type="range" min="1" max="30" value="12">
+        <div class="mosca-result danger" id="moscaResult">15 &gt; 12 · La confidencialidad entra en zona de riesgo.</div>
+      </div>
+    </div>
+    <div class="footer"><span>Herramienta de priorización, no pronóstico exacto.</span><span>Mosca, 2015</span></div>
+    <aside class="speaker-notes">Haz que la audiencia proponga X e Y. Z es incierto: trabaja con escenarios conservador/base/optimista. Si X+Y supera Z, material capturado durante la migración puede sobrevivir hasta el momento de descifrado. Para firmas y autenticidad, adaptar el análisis a la vida útil de la confianza/artefacto.</aside>
+  </section>
+
+  <section class="slide" data-section="04 · Migración" data-minutes="2.6">
+    <div class="topline"><span class="eyebrow">Primeros 90 días</span><span class="section-chip">Hoja de ruta</span></div>
+    <div class="content grid4">
+      <div class="card blue-line"><span class="number">01</span><h3>Patrocinar</h3><p>Equipo, alcance, riesgo aceptable y datos longevos.</p></div>
+      <div class="card purple-line"><span class="number">02</span><h3>Inventariar</h3><p>Algoritmo, uso, ubicación, dueño, proveedor y fecha de retiro.</p></div>
+      <div class="card magenta"><span class="number">03</span><h3>Priorizar</h3><p>X + Y vs escenarios Z; exposición externa y criticidad.</p></div>
+      <div class="card"><span class="number">04</span><h3>Pilotar</h3><p>TLS/VPN/PKI/código firmado en laboratorio; medir y documentar.</p></div>
+    </div>
+    <div class="footer"><span>Pregunta a cada proveedor: qué, cuándo, cómo y con qué rollback.</span><span>CISA · NIST</span></div>
+    <aside class="speaker-notes">Entregables: registro criptográfico, mapa de dependencias, matriz de riesgo, criterios de compra y dos pilotos. La primera meta no es migrar todo: es obtener visibilidad y bajar incertidumbre.</aside>
+  </section>
+
+  <section class="slide dark" data-section="05 · Taller" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">05</span><span class="pill">22 min</span></div>
+    <div class="content section-title"><p class="eyebrow">De la abstracción al hardware</p><h2>Taller: estado de Bell</h2></div>
+    <span class="section-number">05</span>
+    <div class="footer"><span>Colab · Qiskit · simulador · QPU real</span><span></span></div>
+    <aside class="speaker-notes">Ten abierto el notebook antes de la charla. Ejecuta el simulador primero para garantizar el resultado. El hardware real es bonus sujeto a acceso, cuota y cola.</aside>
+  </section>
+
+  <section class="slide dark" data-section="05 · Taller" data-minutes="1.3">
+    <div class="topline"><span class="eyebrow">Objetivo observable</span><span class="section-chip">Φ⁺</span></div>
+    <div class="content grid2">
+      <div><p class="equation accent">|00⟩ → H → CX<br>→ (|00⟩+|11⟩)/√2</p></div>
+      <div><h2 style="max-width:10ch">Dos puertas. Una correlación.</h2><p class="lede" style="margin-top:1.5rem">Esperamos ≈50% <span class="state">00</span> y ≈50% <span class="state">11</span>.</p><p class="muted" style="margin-top:1rem">El hardware real añade resultados espurios por ruido.</p></div>
+    </div>
+    <div class="footer"><span>Corrección del notebook original: sin X(1).</span><span>Estado de Bell Φ⁺</span></div>
+    <aside class="speaker-notes">El notebook compartido incluía X(1), que produce Ψ+ y resultados 01/10. Esta versión elimina X para que coincida con 00/11. Si quieres mostrar ambos, ejecuta primero Φ+ y luego agrega X(1) antes de H.</aside>
+  </section>
+
+  <section class="slide soft" data-section="05 · Taller" data-minutes="2">
+    <div class="topline"><span class="eyebrow">0 · Preparación</span><span class="section-chip">Google Colab</span></div>
+    <div class="content grid2">
+      <div>
+        <h2>Abre y copia</h2>
+        <p class="lede" style="margin-top:1.3rem"><a href="https://colab.research.google.com/drive/1LM8asOQzPBiZdKB0A8eIs1a5qil_V29X" target="_blank" rel="noreferrer">Notebook compartido ↗</a></p>
+        <p style="margin-top:1rem">Archivo → Guardar una copia en Drive. Ejecuta las celdas en orden.</p>
+      </div>
+      <pre><code><span class="cm"># Celda 1 · instalar</span>
+!pip install -q \
+  'qiskit[visualization]' \
+  qiskit-aer \
+  qiskit-ibm-runtime
+
+<span class="cm"># Si Colab lo pide:</span>
+<span class="cm"># Entorno de ejecución → Reiniciar sesión</span></code></pre>
+    </div>
+    <div class="footer"><span>Plan B: el simulador funciona sin cuenta de IBM.</span><span>2 min</span></div>
+    <aside class="speaker-notes">Pide a asistentes instalar mientras explicas la cuenta. Para un taller estable, entrega también el notebook local corregido incluido con estos materiales.</aside>
+  </section>
+
+  <section class="slide" data-section="05 · Taller" data-minutes="3">
+    <div class="topline"><span class="eyebrow">1 · API key sin exponerla</span><span class="section-chip">IBM Quantum Platform</span></div>
+    <div class="content grid2">
+      <div><ol style="font-size:clamp(1rem,1.55vw,1.35rem);line-height:1.5;padding-left:1.3rem"><li>Entra a <strong>quantum.cloud.ibm.com</strong> e inicia sesión.</li><li>Crea una instancia en <strong>Instances</strong> (plan disponible).</li><li>En Home/Dashboard, crea y copia tu API key de 44 caracteres.</li><li>Opcional: copia el CRN de la instancia.</li><li>En Colab, abre 🔑 <strong>Secrets</strong> y crea <span class="state">IBM_QUANTUM_API_KEY</span>. Activa acceso del notebook.</li></ol></div>
+      <div>
+        <div class="note"><strong>Nunca</strong> pegues la clave en una celda ni la publiques. IBM considera Colab un entorno no confiable: revoca/rota la clave al terminar si fue temporal.</div>
+        <pre style="margin-top:1rem"><code><span class="kw">from</span> google.colab <span class="kw">import</span> userdata
+api_key = userdata.get(<span class="str">"IBM_QUANTUM_API_KEY"</span>)</code></pre>
+      </div>
+    </div>
+    <div class="footer"><span>Guía oficial: IBM · “Initialize the service in an untrusted environment”</span><span>3 min</span></div>
+    <aside class="speaker-notes">IBM advierte que en una máquina pública o nube externa se debe evitar persistir credenciales y cambiar la clave tras el uso. Colab Secrets evita que aparezca en el notebook, pero no convierte el entorno en confiable. Si usan CRN, guárdenlo como un segundo secret IBM_QUANTUM_CRN.</aside>
+  </section>
+
+  <section class="slide soft" data-section="05 · Taller" data-minutes="2.5">
+    <div class="topline"><span class="eyebrow">2 · Construir Φ⁺</span><span class="section-chip">Qiskit</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit <span class="kw">import</span> QuantumCircuit
+
+bell = QuantumCircuit(2)
+bell.h(0)        <span class="cm"># superposición</span>
+bell.cx(0, 1)    <span class="cm"># entrelazamiento</span>
+bell.measure_all()
+
+bell.draw(<span class="str">"mpl"</span>)</code></pre>
+      <div class="circuit">
+        <svg viewBox="0 0 660 260" class="diagram" role="img" aria-label="Circuito de Bell con Hadamard, CNOT y medición">
+          <line x1="60" y1="75" x2="600" y2="75" stroke="#161616" stroke-width="3"/><line x1="60" y1="175" x2="600" y2="175" stroke="#161616" stroke-width="3"/>
+          <text x="18" y="82" font-size="24">q₀</text><text x="18" y="182" font-size="24">q₁</text>
+          <rect x="130" y="42" width="66" height="66" fill="#8a3ffc"/><text x="151" y="86" font-size="30" fill="white">H</text>
+          <circle cx="310" cy="75" r="10" fill="#161616"/><line x1="310" y1="75" x2="310" y2="175" stroke="#161616" stroke-width="3"/><circle cx="310" cy="175" r="28" fill="white" stroke="#161616" stroke-width="3"/><line x1="282" y1="175" x2="338" y2="175" stroke="#161616" stroke-width="3"/><line x1="310" y1="147" x2="310" y2="203" stroke="#161616" stroke-width="3"/>
+          <rect x="465" y="42" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 92 Q500 50 520 92" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="73" x2="520" y2="58" stroke="#161616" stroke-width="3"/>
+          <rect x="465" y="142" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 192 Q500 150 520 192" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="173" x2="520" y2="158" stroke="#161616" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Orden: H crea amplitudes; CX correlaciona; medir produce bits.</span><span>2.5 min</span></div>
+    <aside class="speaker-notes">Recorre estado por estado: |00⟩ → (|00⟩+|10⟩)/√2 en convención conceptual q0 primero; CNOT → Bell Φ+. Advierte que Qiskit muestra bitstrings en orden clásico de mayor a menor índice; como 00/11 son simétricos, aquí no confunde el resultado.</aside>
+  </section>
+
+  <section class="slide dark" data-section="05 · Taller" data-minutes="3">
+    <div class="topline"><span class="eyebrow">3 · Simular primero</span><span class="section-chip">Sin cola · sin credenciales</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit_aer <span class="kw">import</span> AerSimulator
+<span class="kw">from</span> qiskit <span class="kw">import</span> transpile
+<span class="kw">from</span> qiskit.visualization <span class="kw">import</span> plot_histogram
+
+sim = AerSimulator()
+compiled = transpile(bell, sim)
+result = sim.run(compiled, shots=1024).result()
+counts_sim = result.get_counts()
+
+print(counts_sim)
+plot_histogram(counts_sim)</code></pre>
+      <div>
+        <div class="histogram" aria-label="Histograma ideal esperado">
+          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:88%"></div><span class="bar-label">00</span></div>
+          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">01</span></div>
+          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">10</span></div>
+          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:91%"></div><span class="bar-label">11</span></div>
+        </div>
+        <p class="muted" style="margin-top:1rem">No tiene que ser exactamente 512/512: el muestreo fluctúa.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Checkpoint: si aparecen 01/10, revisa si quedó X(1).</span><span>3 min</span></div>
+    <aside class="speaker-notes">Este bloque es deliberadamente simple y estable. El simulador ideal confirma lógica. 1024 shots da variación binomial; lo importante es correlación y ausencia ideal de 01/10.</aside>
+  </section>
+
+  <section class="slide" data-section="05 · Taller" data-minutes="4">
+    <div class="topline"><span class="eyebrow">4 · Ejecutar en una QPU real</span><span class="section-chip">IBM Quantum Compute</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit_ibm_runtime <span class="kw">import</span> (
+  QiskitRuntimeService, SamplerV2 <span class="kw">as</span> Sampler
+)
+<span class="kw">from</span> qiskit.transpiler <span class="kw">import</span> generate_preset_pass_manager
+
+service = QiskitRuntimeService(token=api_key)
+backend = service.least_busy(
+  operational=<span class="kw">True</span>, simulator=<span class="kw">False</span>
+)
+
+pm = generate_preset_pass_manager(
+  backend=backend, optimization_level=1
+)
+isa_bell = pm.run(bell)
+
+sampler = Sampler(mode=backend)
+job = sampler.run([isa_bell], shots=1024)
+print(<span class="str">"Job:"</span>, job.job_id())</code></pre>
+      <div>
+        <h2>Mapear → optimizar → ejecutar</h2>
+        <p class="lede" style="margin-top:1.4rem">El transpiler adapta nuestras puertas a la conectividad y al conjunto de instrucciones del dispositivo elegido.</p>
+        <div class="note" style="margin-top:1rem">La cola, cuota o disponibilidad pueden impedir el vivo. Conserva el ID del trabajo y usa el simulador como ruta segura.</div>
+      </div>
+    </div>
+    <div class="footer"><span>Si usas CRN: QiskitRuntimeService(token=api_key, instance=crn)</span><span>4 min + cola</span></div>
+    <aside class="speaker-notes">Antes de enviar, imprime backend.name. No fijes un backend en el material: la flota cambia. Guardar job_id permite recuperar después con service.job(job_id). La guía oficial usa Qiskit Patterns y least_busy.</aside>
+  </section>
+
+  <section class="slide soft" data-section="05 · Taller" data-minutes="2.5">
+    <div class="topline"><span class="eyebrow">5 · Leer el resultado</span><span class="section-chip">SamplerV2</span></div>
+    <div class="content grid2">
+      <pre><code>pub_result = job.result()[0]
+counts_qpu = pub_result.data.meas.get_counts()
+
+print(counts_qpu)
+plot_histogram(
+  [counts_sim, counts_qpu],
+  legend=[<span class="str">"Simulador"</span>, <span class="str">"QPU"</span>]
+)</code></pre>
+      <div>
+        <div class="histogram" aria-label="Histograma ruidoso ilustrativo">
+          <div class="bar-wrap"><span>48%</span><div class="bar noise" style="height:84%"></div><span class="bar-label">00</span></div>
+          <div class="bar-wrap"><span>3%</span><div class="bar noise" style="height:7%"></div><span class="bar-label">01</span></div>
+          <div class="bar-wrap"><span>2%</span><div class="bar noise" style="height:5%"></div><span class="bar-label">10</span></div>
+          <div class="bar-wrap"><span>47%</span><div class="bar noise" style="height:81%"></div><span class="bar-label">11</span></div>
+        </div>
+        <p class="muted" style="margin-top:1rem">Ilustrativo: tus porcentajes dependerán de calibración, mapeo y shots.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Ruido ≠ fracaso: es el dispositivo físico entrando en escena.</span><span>2.5 min</span></div>
+    <aside class="speaker-notes">Errores de lectura y de compuertas producen algo de 01/10. Evita decir “nunca” en hardware real. Un histograma en Z es una demostración pedagógica de correlación; la prueba rigurosa del entrelazamiento requiere más bases.</aside>
+  </section>
+
+  <section class="slide" data-section="05 · Taller" data-minutes="3.4">
+    <div class="topline"><span class="eyebrow">Plan de contingencia en vivo</span><span class="section-chip">La demo no manda</span></div>
+    <div class="content grid3">
+      <div class="card blue-line"><h3>Falla instalación</h3><p>Reinicia sesión; ejecuta imports desde cero. Verifica versiones.</p></div>
+      <div class="card purple-line"><h3>Falla autenticación</h3><p>Confirma acceso del secret, API key activa e instancia/región.</p></div>
+      <div class="card magenta"><h3>Hay cola</h3><p>Muestra job ID, corre Aer y enseña una captura previa de QPU.</p></div>
+      <div class="card"><h3>No hay resultados</h3><p>Recupera después con <span class="state">service.job(job_id)</span>.</p></div>
+      <div class="card"><h3>Salen 01/10</h3><p>Pocos: ruido. Cerca de 50/50: probablemente quedó <span class="state">X(1)</span>.</p></div>
+      <div class="card"><h3>Pregunta difícil</h3><p>El histograma Z muestra correlación, no certifica por sí solo entrelazamiento.</p></div>
+    </div>
+    <div class="footer"><span>Ensaya con el mismo navegador, cuenta y red del evento.</span><span>Checklist del facilitador</span></div>
+    <aside class="speaker-notes">Cierra el taller repitiendo el pipeline: circuito, transpilación, primitive, resultado. Pide a una persona describir por qué el simulador y la QPU difieren.</aside>
+  </section>
+
+  <section class="slide dark" data-section="Cierre" data-minutes="1.2">
+    <div class="topline"><span class="eyebrow">Tres ideas para llevar</span><span class="section-chip">Cierre</span></div>
+    <div class="content grid3">
+      <div class="card magenta"><span class="number">01</span><p class="lede">La amenaza es a la criptografía pública y al tiempo de vida de los datos.</p></div>
+      <div class="card purple-line"><span class="number">02</span><p class="lede">La defensa ya tiene estándares: ML‑KEM, ML‑DSA y SLH‑DSA.</p></div>
+      <div class="card blue-line"><span class="number">03</span><p class="lede">La decisión de hoy es inventario + agilidad + pilotos, no adivinar una fecha.</p></div>
+    </div>
+    <div class="footer"><span>Y dos puertas bastaron para tocar una QPU real.</span><span>De la teoría a la acción</span></div>
+    <aside class="speaker-notes">Frase final: “No necesitamos saber el día exacto en que llegue una CRQC para saber qué debemos hacer el lunes”.</aside>
+  </section>
+
+  <section class="slide purple" data-section="Cierre" data-minutes="3.8">
+    <div class="topline"><span class="eyebrow">06 · Preguntas</span><span class="pill">5 min</span></div>
+    <div class="content split-hero">
+      <div><p class="giant" style="font-size:clamp(4rem,9vw,9rem);line-height:.84">¿Qué dato<br>no puede<br><span class="accent">esperar?</span></p></div>
+      <img class="asset" src="assets/collaboration-purple.svg" alt="Ilustración de dos personas colaborando">
+    </div>
+    <div class="footer"><span>Guía de estudio y notebook incluidos en esta carpeta.</span><span>Gracias</span></div>
+    <aside class="speaker-notes">Invita preguntas sobre tres carriles: tecnología cuántica, riesgo/estrategia y código. Si no hay preguntas, usa la pregunta de la diapositiva para pedir un ejemplo del público.</aside>
+  </section>
+
+  <section class="slide" data-section="Apéndice" data-minutes="0">
+    <div class="topline"><span class="eyebrow">Fuentes esenciales</span><span class="section-chip">Apéndice</span></div>
+    <div class="content grid2" style="font-size:clamp(.78rem,1.1vw,1rem);line-height:1.45">
+      <div><h3>Normas y migración</h3><ul class="clean"><li>NIST, FIPS 203 / 204 / 205 (2024)</li><li>NIST, “Releases First 3 Finalized PQC Standards” (2024; act. 2025)</li><li>CISA/NSA/NIST, “Quantum‑Readiness” (2023)</li><li>M. Mosca, IACR ePrint 2015/1075</li><li>P. Shor, FOCS 1994, DOI 10.1109/SFCS.1994.365700</li></ul></div>
+      <div><h3>Qiskit y taller</h3><ul class="clean"><li>IBM Quantum Docs, “Run your first circuit on hardware”</li><li>IBM Quantum Docs, “Initialize the service in an untrusted environment”</li><li>IBM Quantum Docs, “Save your login credentials”</li><li>Qiskit Advocate Library, QC/Qiskit Foundations (2025)</li><li>Consulta la guía de estudio para URLs y notas completas.</li></ul></div>
+    </div>
+    <div class="footer"><span>Fuentes consultadas el 6 oct 2026.</span><span>Apéndice · fuera del tiempo</span></div>
+    <aside class="speaker-notes">Esta diapositiva no forma parte del minuto a minuto; úsala para responder o dejarla como respaldo.</aside>
+  </section>
+
+  <section class="slide dark" data-section="Recursos" data-minutes="0">
+    <div class="topline"><span class="eyebrow">Llévate la presentación</span><span class="pill">Escanea</span></div>
+    <div class="content grid2" style="align-items:center">
+      <div>
+        <h2 style="max-width:10ch">Continúa explorando</h2>
+        <p class="lede" style="margin-top:1.5rem">Abre la presentación, consulta las fuentes y descarga el notebook del estado de Bell.</p>
+        <p class="state accent" style="margin-top:2rem;font-size:clamp(.9rem,1.45vw,1.25rem);word-break:break-all">brun3y.github.io/quantum-and-cybersecurity/</p>
+      </div>
+      <div style="display:flex;justify-content:center;align-items:center">
+        <div style="background:white;padding:clamp(1rem,2vw,2rem);width:min(49vh,34vw);aspect-ratio:1">
+          <img class="asset" src="assets/presentation-qr.svg" alt="Código QR para abrir la presentación en GitHub Pages">
+        </div>
+      </div>
+    </div>
+    <div class="footer"><span>Presentación pública · GitHub Pages</span><span>Notebook incluido</span></div>
+    <aside class="speaker-notes">Deja esta diapositiva proyectada al terminar. El QR abre la versión pública del deck; desde el repositorio los asistentes también pueden descargar el notebook.</aside>
+  </section>
+</main>
+
+<aside class="notes-panel" id="notesPanel" aria-label="Notas del presentador"><h3>Notas del presentador</h3><div id="notesText"></div></aside>
+<aside class="help" id="help" aria-label="Atajos de teclado">
+  <h2 style="max-width:none">Atajos</h2><p><kbd>←</kbd><kbd>→</kbd> navegar</p><p><kbd>N</kbd> notas</p><p><kbd>T</kbd> iniciar/pausar cronómetro</p><p><kbd>F</kbd> pantalla completa</p><p><kbd>Home</kbd><kbd>End</kbd> inicio/final</p><p><kbd>?</kbd> cerrar ayuda</p>
+</aside>
+<nav class="controls" aria-label="Controles de presentación">
+  <button id="prev" aria-label="Diapositiva anterior">←</button>
+  <button id="next" aria-label="Diapositiva siguiente">→</button>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  <span class="timer" id="timer">00:00</span>
+  <span class="counter" id="counter">1 / 1</span>
+  <button id="notesBtn" aria-label="Mostrar notas">N</button>
+  <button id="fullBtn" aria-label="Pantalla completa">F</button>
+  <button id="helpBtn" aria-label="Ayuda">?</button>
+</nav>
+
+<script>
+(() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const progress = document.getElementById('progressBar');
+  const counter = document.getElementById('counter');
+  const notesPanel = document.getElementById('notesPanel');
+  const notesText = document.getElementById('notesText');
+  const help = document.getElementById('help');
+  let index = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1)) - 1 || 0));
+  let seconds = 0, timerId = null;
+
+  function show(next) {
+    index = Math.max(0, Math.min(slides.length - 1, next));
+    slides.forEach((s, i) => s.classList.toggle('active', i === index));
+    progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+    counter.textContent = `${index + 1} / ${slides.length}`;
+    location.hash = String(index + 1);
+    const note = slides[index].querySelector('.speaker-notes');
+    notesText.innerHTML = note ? note.innerHTML : 'Sin notas.';
+    document.title = `${index + 1} · ${slides[index].dataset.section} — Ciberseguridad cuántica`;
+  }
+  function move(delta) { show(index + delta); }
+  document.getElementById('prev').onclick = () => move(-1);
+  document.getElementById('next').onclick = () => move(1);
+  document.getElementById('notesBtn').onclick = () => notesPanel.classList.toggle('open');
+  document.getElementById('helpBtn').onclick = () => help.classList.toggle('open');
+  document.getElementById('fullBtn').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  document.addEventListener('keydown', e => {
+    if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); move(1); }
+    if (['ArrowLeft','PageUp'].includes(e.key)) { e.preventDefault(); move(-1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End') show(slides.length - 1);
+    if (e.key.toLowerCase() === 'n') notesPanel.classList.toggle('open');
+    if (e.key.toLowerCase() === 'f') document.getElementById('fullBtn').click();
+    if (e.key.toLowerCase() === 't') toggleTimer();
+    if (e.key === '?') help.classList.toggle('open');
+    if (e.key === 'Escape') { help.classList.remove('open'); notesPanel.classList.remove('open'); }
+  });
+  function toggleTimer() {
+    if (timerId) { clearInterval(timerId); timerId = null; return; }
+    timerId = setInterval(() => { seconds++; const m = String(Math.floor(seconds/60)).padStart(2,'0'); const s = String(seconds%60).padStart(2,'0'); document.getElementById('timer').textContent = `${m}:${s}`; }, 1000);
+  }
+  ['x','y','z'].forEach(id => document.getElementById(id).addEventListener('input', updateMosca));
+  function updateMosca() {
+    const x = +document.getElementById('x').value, y = +document.getElementById('y').value, z = +document.getElementById('z').value;
+    document.getElementById('xo').textContent = `${x} años`; document.getElementById('yo').textContent = `${y} años`; document.getElementById('zo').textContent = `${z} años`;
+    const danger = x + y > z, equal = x + y === z, result = document.getElementById('moscaResult');
+    result.classList.toggle('danger', danger || equal);
+    result.textContent = danger ? `${x+y} > ${z} · La confidencialidad entra en zona de riesgo.` : equal ? `${x+y} = ${z} · Sin margen: prioriza la migración.` : `${x+y} < ${z} · Hay margen estimado; sigue reduciendo Y.`;
+  }
+  window.addEventListener('hashchange', () => { const n = Number(location.hash.slice(1)); if (n && n-1 !== index) show(n-1); });
+  show(index); updateMosca();
+})();
+</script>
+</body>
+</html>
