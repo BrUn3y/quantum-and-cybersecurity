@@ -30,6 +30,24 @@
     .slide.purple { color: white; background: var(--purple); }
     .slide.blue { color: white; background: var(--blue); }
     .slide.soft { background: var(--paper); }
+    .slide.video-slide {
+      color: white;
+      background: #161616 url("https://i.ytimg.com/vi/wwMI6IhvwE0/maxresdefault.jpg") center / cover no-repeat;
+    }
+    .video-slide::before {
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, rgba(0,0,0,.88) 0%, rgba(0,0,0,.72) 38%, rgba(0,0,0,.28) 68%, rgba(0,0,0,.42) 100%);
+    }
+    .video-slide > :not(.video-layer) { position: relative; z-index: 2; }
+    .video-layer {
+      position: absolute; z-index: 0; top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw; min-width: 177.78vh; min-height: 100vh;
+      transform: translate(-50%, -50%) scale(1.18); border: 0; pointer-events: none;
+    }
+    .video-copy { max-width: min(43rem, 58vw); padding: 1.4rem 1.5rem 1.5rem; border-left: .4rem solid var(--magenta); background: rgba(0,0,0,.34); backdrop-filter: blur(5px); }
+    .video-copy h2 { max-width: 11ch; text-shadow: 0 2px 18px rgba(0,0,0,.7); }
+    .video-slide .footer { color: #f4f4f4; text-shadow: 0 1px 8px #000; }
+    .video-slide .footer a { color: inherit; text-decoration: none; }
     .eyebrow { font-size: clamp(.75rem, 1.1vw, 1rem); letter-spacing: .11em; text-transform: uppercase; font-weight: 600; }
     h1, h2, h3, p { margin: 0; }
     h1 { font-size: clamp(3rem, 7.5vw, 7.2rem); line-height: .94; font-weight: 300; letter-spacing: -.045em; }
@@ -255,24 +273,17 @@
     <aside class="speaker-notes">Matiz importante: ver 00/11 no prueba por sí solo el entrelazamiento; una mezcla clásica puede producir el mismo histograma en Z. Para demostrarlo rigurosamente hay que medir correlaciones en bases incompatibles o realizar tomografía/testigos. En el taller diremos “evidencia de correlación compatible con el estado preparado”.</aside>
   </section>
 
-  <section class="slide" data-section="01 · Fundamentos" data-minutes="1.2">
-    <div class="topline"><span class="eyebrow">Dos arquitecturas</span><span class="section-chip">No reemplazo: colaboración</span></div>
+  <section class="slide video-slide" data-section="01 · Fundamentos" data-minutes="1.2">
+    <iframe class="video-layer" data-video-src="https://www.youtube-nocookie.com/embed/wwMI6IhvwE0?autoplay=1&amp;mute=1&amp;controls=0&amp;loop=1&amp;playlist=wwMI6IhvwE0&amp;playsinline=1&amp;rel=0&amp;iv_load_policy=3&amp;disablekb=1" title="Módulos criogénicos de IBM para computación cuántica tolerante a fallos" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    <div class="topline"><span class="eyebrow">¿Cómo se ve una computadora cuántica?</span><span class="section-chip">Hardware real</span></div>
     <div class="content">
-      <svg class="diagram" viewBox="0 0 1100 420" role="img" aria-label="Comparación entre arquitectura clásica y flujo híbrido cuántico">
-        <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#8a3ffc"/></marker></defs>
-        <text x="30" y="45" font-size="28">Clásica</text><rect x="30" y="75" width="300" height="120" fill="#e0e0e0"/><text x="60" y="145" font-size="24">CPU / GPU + memoria</text>
-        <text x="30" y="270" font-size="28">Cuántica híbrida</text>
-        <rect x="30" y="300" width="190" height="90" fill="#d0e2ff"/><text x="78" y="353" font-size="23">Aplicación</text>
-        <path d="M230 345 H355" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
-        <rect x="370" y="300" width="190" height="90" fill="#e8daff"/><text x="420" y="340" font-size="23">Runtime</text><text x="407" y="370" font-size="18">orquestación</text>
-        <path d="M570 345 H695" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
-        <rect x="710" y="300" width="160" height="90" fill="#ffd6e8"/><text x="766" y="353" font-size="23">QPU</text>
-        <path d="M880 345 H990 V135 H350" fill="none" stroke="#8a3ffc" stroke-width="5" marker-end="url(#ah)"/>
-        <text x="492" y="115" font-size="22" fill="#525252">optimizar → ejecutar → medir → posprocesar</text>
-      </svg>
+      <div class="video-copy">
+        <h2>No es solo un chip. Es un sistema.</h2>
+        <p class="lede" style="margin-top:1.3rem">Criogenia, cableado de microondas, electrónica de control, QPU y cómputo clásico trabajando juntos.</p>
+      </div>
     </div>
-    <div class="footer"><span>La QPU es un acelerador especializado dentro de un flujo clásico.</span><span>Qiskit Patterns</span></div>
-    <aside class="speaker-notes">Describe la pila: programa y optimización clásicas; compilación a instrucciones del dispositivo; electrónica de control; QPU; medición y análisis clásicos. Recalca que la latencia de nube y las colas son parte de la experiencia real.</aside>
+    <div class="footer"><span>La QPU opera dentro de una infraestructura diseñada para aislar y controlar estados cuánticos.</span><a href="https://www.youtube.com/watch?v=wwMI6IhvwE0" target="_blank" rel="noreferrer">Video: IBM Research, 2026 ↗</a></div>
+    <aside class="speaker-notes">Deja que el video corra unos segundos antes de hablar. Señala que la estructura visible corresponde principalmente a la infraestructura criogénica y de control: el procesador cuántico es una parte pequeña del sistema. Estos módulos de IBM Research muestran trabajo orientado a escalar computación tolerante a fallos; no representan por sí solos una CRQC disponible hoy.</aside>
   </section>
 
   <section class="slide soft" data-section="01 · Fundamentos" data-minutes="1.4">
@@ -723,7 +734,15 @@ plot_histogram(
 
   function show(next) {
     index = Math.max(0, Math.min(slides.length - 1, next));
-    slides.forEach((s, i) => s.classList.toggle('active', i === index));
+    slides.forEach((s, i) => {
+      const isActive = i === index;
+      s.classList.toggle('active', isActive);
+      const video = s.querySelector('iframe[data-video-src]');
+      if (video) {
+        if (isActive && video.getAttribute('src') !== video.dataset.videoSrc) video.setAttribute('src', video.dataset.videoSrc);
+        if (!isActive && video.hasAttribute('src')) video.removeAttribute('src');
+      }
+    });
     progress.style.width = `${((index + 1) / slides.length) * 100}%`;
     counter.textContent = `${index + 1} / ${slides.length}`;
     location.hash = String(index + 1);
