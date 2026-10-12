@@ -96,9 +96,9 @@ Ruta de 60 minutos Teoría → riesgo → acción → código
 
 04 Migración y agilidad criptográfica 7 min
 
-05 Taller: estado de Bell en IBM Quantum 22 min
+05 Preguntas, fuentes y recursos 5 min
 
-06 Preguntas y cierre 5 min
+06 Taller: estado de Bell y cierre 22 min
 
 El plan original sumaba 100 minutos; esta versión cabe en una hora. Ritmo sugerido
 
@@ -696,17 +696,127 @@ Entregables: registro criptográfico, mapa de dependencias, matriz de riesgo, cr
 
 ---
 
-## Diapositiva 25: Taller: estado de Bell
+## Diapositiva 25: ¿Qué dato no puede esperar?
 
-*Sección: 05 · Taller · Tiempo sugerido: 0.3 min*
+*Sección: 05 · Preguntas y recursos · Tiempo sugerido: 3.8 min*
 
-05 22 min
+05 · Preguntas 5 min
+
+¿Qué dato
+no puede
+esperar?
+
+*Visual: Ilustración de dos personas colaborando.*
+
+Guía de estudio y notebook incluidos en esta carpeta. Gracias
+
+### Notas del presentador
+
+Invita preguntas sobre tres carriles: tecnología cuántica, riesgo/estrategia y código. Si no hay preguntas, usa la pregunta de la diapositiva para pedir un ejemplo del público.
+
+---
+
+## Diapositiva 26: Fuentes esenciales
+
+*Sección: Apéndice · Tiempo sugerido: 0 min*
+
+Fuentes esenciales Apéndice
+
+##### Normas y migración
+
+- NIST, FIPS 203 / 204 / 205 (2024)
+
+- NIST, “Releases First 3 Finalized PQC Standards” (2024; act. 2025)
+
+- CISA/NSA/NIST, “Quantum‑Readiness” (2023)
+
+- M. Mosca, IACR ePrint 2015/1075
+
+- P. Shor, FOCS 1994, DOI 10.1109/SFCS.1994.365700
+
+##### Qiskit y taller
+
+- IBM Quantum Docs, “Run your first circuit on hardware”
+
+- IBM Quantum Docs, “Initialize the service in an untrusted environment”
+
+- IBM Quantum Docs, “Save your login credentials”
+
+- Qiskit Advocate Library, QC/Qiskit Foundations (2025)
+
+- Consulta la guía de estudio para URLs y notas completas.
+
+Fuentes consultadas el 6 oct 2026. Apéndice · fuera del tiempo
+
+### Notas del presentador
+
+Esta diapositiva no forma parte del minuto a minuto; úsala para responder o dejarla como respaldo.
+
+---
+
+## Diapositiva 27: Tu siguiente circuito empieza aquí
+
+*Sección: Comunidad · Tiempo sugerido: 0 min*
+
+Tu siguiente circuito empieza aquí Entrada gratuita
+
+28–29 OCT · GUADALAJARA + ONLINE
+
+#### Qiskit Fall Fest GDL 2026
+
+Dos días de charlas, talleres y laboratorios cuánticos para aprender, construir y conectar.
+
+28 oct · AstraZeneca GITC
+29 oct · En línea
+150 lugares presenciales
+
+[Código QR para registrarse al Qiskit Fall Fest GDL 2026](https://quantum-guild-gdl.github.io/qiskit_fall_fest_gdl/)
+
+Escanea y reserva tu lugar
+
+Zapopan, Jalisco · Evento comunitario sin costo
+
+quantum-guild-gdl.github.io/qiskit_fall_fest_gdl/ · Nos vemos en el Fall Fest
+
+### Notas del presentador
+
+Invita a la audiencia a continuar aprendiendo en comunidad. El 28 de octubre es presencial en AstraZeneca GITC Guadalajara, en Zapopan; el 29 de octubre es en línea. Ambas modalidades son gratuitas y el acceso presencial está limitado a 150 lugares. Deja unos segundos para escanear el QR.
+
+---
+
+## Diapositiva 28: Llévate la presentación
+
+*Sección: Recursos · Tiempo sugerido: 0 min*
+
+Llévate la presentación Escanea
+
+#### Continúa explorando
+
+Abre la presentación, consulta las fuentes y descarga el notebook del estado de Bell.
+
+brun3y.github.io/quantum-and-cybersecurity/
+
+*Visual: Código QR para abrir la presentación en GitHub Pages.*
+
+Presentación pública · GitHub Pages Notebook incluido
+
+### Notas del presentador
+
+Deja esta diapositiva proyectada al terminar. El QR abre la versión pública del deck; desde el repositorio los asistentes también pueden descargar el notebook.
+
+---
+
+## Diapositiva 29: Taller: estado de Bell
+
+*Sección: 06 · Taller · Tiempo sugerido: 0.3 min*
+
+06 22 min
 
 De la abstracción al hardware
 
 #### Taller: estado de Bell
 
-05
+06
 
 Colab · Qiskit · simulador · QPU real
 
@@ -716,9 +826,9 @@ Ten abierto el notebook antes de la charla. Ejecuta el simulador primero para ga
 
 ---
 
-## Diapositiva 26: Objetivo observable
+## Diapositiva 30: Objetivo observable
 
-*Sección: 05 · Taller · Tiempo sugerido: 1.3 min*
+*Sección: 06 · Taller · Tiempo sugerido: 1.3 min*
 
 Objetivo observable Φ⁺
 
@@ -739,9 +849,9 @@ El notebook compartido incluía X(1), que produce Ψ+ y resultados 01/10. Esta v
 
 ---
 
-## Diapositiva 27: 0 · Preparación
+## Diapositiva 31: 0 · Preparación
 
-*Sección: 05 · Taller · Tiempo sugerido: 2 min*
+*Sección: 06 · Taller · Tiempo sugerido: 2 min*
 
 0 · Preparación Google Colab
 
@@ -770,9 +880,9 @@ Pide a asistentes instalar mientras explicas la cuenta. Para un taller estable, 
 
 ---
 
-## Diapositiva 28: 1 · API key sin exponerla
+## Diapositiva 32: 1 · API key sin exponerla
 
-*Sección: 05 · Taller · Tiempo sugerido: 3 min*
+*Sección: 06 · Taller · Tiempo sugerido: 3 min*
 
 1 · API key sin exponerla IBM Quantum Platform
 
@@ -801,9 +911,9 @@ IBM advierte que en una máquina pública o nube externa se debe evitar persisti
 
 ---
 
-## Diapositiva 29: 2 · Construir Φ⁺
+## Diapositiva 33: 2 · Construir Φ⁺
 
-*Sección: 05 · Taller · Tiempo sugerido: 2.5 min*
+*Sección: 06 · Taller · Tiempo sugerido: 2.5 min*
 
 2 · Construir Φ⁺ Qiskit
 
@@ -832,9 +942,9 @@ Recorre estado por estado: |00⟩ → (|00⟩+|10⟩)/√2 en convención concep
 
 ---
 
-## Diapositiva 30: 3 · Simular primero
+## Diapositiva 34: 3 · Simular primero
 
-*Sección: 05 · Taller · Tiempo sugerido: 3 min*
+*Sección: 06 · Taller · Tiempo sugerido: 3 min*
 
 3 · Simular primero Sin cola · sin credenciales
 
@@ -878,9 +988,9 @@ Este bloque es deliberadamente simple y estable. El simulador ideal confirma ló
 
 ---
 
-## Diapositiva 31: 4 · Ejecutar en una QPU real
+## Diapositiva 35: 4 · Ejecutar en una QPU real
 
-*Sección: 05 · Taller · Tiempo sugerido: 4 min*
+*Sección: 06 · Taller · Tiempo sugerido: 4 min*
 
 4 · Ejecutar en una QPU real IBM Quantum Compute
 
@@ -919,9 +1029,9 @@ Antes de enviar, imprime backend.name. No fijes un backend en el material: la fl
 
 ---
 
-## Diapositiva 32: 5 · Leer el resultado
+## Diapositiva 36: 5 · Leer el resultado
 
-*Sección: 05 · Taller · Tiempo sugerido: 2.5 min*
+*Sección: 06 · Taller · Tiempo sugerido: 2.5 min*
 
 5 · Leer el resultado SamplerV2
 
@@ -962,9 +1072,9 @@ Errores de lectura y de compuertas producen algo de 01/10. Evita decir “nunca�
 
 ---
 
-## Diapositiva 33: Plan de contingencia en vivo
+## Diapositiva 37: Plan de contingencia en vivo
 
-*Sección: 05 · Taller · Tiempo sugerido: 3.4 min*
+*Sección: 06 · Taller · Tiempo sugerido: 3.4 min*
 
 Plan de contingencia en vivo La demo no manda
 
@@ -1000,7 +1110,7 @@ Cierra el taller repitiendo el pipeline: circuito, transpilación, primitive, re
 
 ---
 
-## Diapositiva 34: Tres ideas para llevar
+## Diapositiva 38: Tres ideas para llevar
 
 *Sección: Cierre · Tiempo sugerido: 1.2 min*
 
@@ -1023,116 +1133,6 @@ Y dos puertas bastaron para tocar una QPU real. De la teoría a la acción
 ### Notas del presentador
 
 Frase final: “No necesitamos saber el día exacto en que llegue una CRQC para saber qué debemos hacer el lunes”.
-
----
-
-## Diapositiva 35: ¿Qué dato no puede esperar?
-
-*Sección: Cierre · Tiempo sugerido: 3.8 min*
-
-06 · Preguntas 5 min
-
-¿Qué dato
-no puede
-esperar?
-
-*Visual: Ilustración de dos personas colaborando.*
-
-Guía de estudio y notebook incluidos en esta carpeta. Gracias
-
-### Notas del presentador
-
-Invita preguntas sobre tres carriles: tecnología cuántica, riesgo/estrategia y código. Si no hay preguntas, usa la pregunta de la diapositiva para pedir un ejemplo del público.
-
----
-
-## Diapositiva 36: Fuentes esenciales
-
-*Sección: Apéndice · Tiempo sugerido: 0 min*
-
-Fuentes esenciales Apéndice
-
-##### Normas y migración
-
-- NIST, FIPS 203 / 204 / 205 (2024)
-
-- NIST, “Releases First 3 Finalized PQC Standards” (2024; act. 2025)
-
-- CISA/NSA/NIST, “Quantum‑Readiness” (2023)
-
-- M. Mosca, IACR ePrint 2015/1075
-
-- P. Shor, FOCS 1994, DOI 10.1109/SFCS.1994.365700
-
-##### Qiskit y taller
-
-- IBM Quantum Docs, “Run your first circuit on hardware”
-
-- IBM Quantum Docs, “Initialize the service in an untrusted environment”
-
-- IBM Quantum Docs, “Save your login credentials”
-
-- Qiskit Advocate Library, QC/Qiskit Foundations (2025)
-
-- Consulta la guía de estudio para URLs y notas completas.
-
-Fuentes consultadas el 6 oct 2026. Apéndice · fuera del tiempo
-
-### Notas del presentador
-
-Esta diapositiva no forma parte del minuto a minuto; úsala para responder o dejarla como respaldo.
-
----
-
-## Diapositiva 37: Tu siguiente circuito empieza aquí
-
-*Sección: Comunidad · Tiempo sugerido: 0 min*
-
-Tu siguiente circuito empieza aquí Entrada gratuita
-
-28–29 OCT · GUADALAJARA + ONLINE
-
-#### Qiskit Fall Fest GDL 2026
-
-Dos días de charlas, talleres y laboratorios cuánticos para aprender, construir y conectar.
-
-28 oct · AstraZeneca GITC
-29 oct · En línea
-150 lugares presenciales
-
-[Código QR para registrarse al Qiskit Fall Fest GDL 2026](https://quantum-guild-gdl.github.io/qiskit_fall_fest_gdl/)
-
-Escanea y reserva tu lugar
-
-Zapopan, Jalisco · Evento comunitario sin costo
-
-quantum-guild-gdl.github.io/qiskit_fall_fest_gdl/ · Nos vemos en el Fall Fest
-
-### Notas del presentador
-
-Invita a la audiencia a continuar aprendiendo en comunidad. El 28 de octubre es presencial en AstraZeneca GITC Guadalajara, en Zapopan; el 29 de octubre es en línea. Ambas modalidades son gratuitas y el acceso presencial está limitado a 150 lugares. Deja unos segundos para escanear el QR.
-
----
-
-## Diapositiva 38: Llévate la presentación
-
-*Sección: Recursos · Tiempo sugerido: 0 min*
-
-Llévate la presentación Escanea
-
-#### Continúa explorando
-
-Abre la presentación, consulta las fuentes y descarga el notebook del estado de Bell.
-
-brun3y.github.io/quantum-and-cybersecurity/
-
-*Visual: Código QR para abrir la presentación en GitHub Pages.*
-
-Presentación pública · GitHub Pages Notebook incluido
-
-### Notas del presentador
-
-Deja esta diapositiva proyectada al terminar. El QR abre la versión pública del deck; desde el repositorio los asistentes también pueden descargar el notebook.
 
 ---
 

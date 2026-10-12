@@ -210,8 +210,8 @@
       <div class="agenda"><span>02</span><strong>La amenaza a la criptografía</strong><time>10 min</time></div>
       <div class="agenda"><span>03</span><strong>Defensa poscuántica</strong><time>8 min</time></div>
       <div class="agenda"><span>04</span><strong>Migración y agilidad criptográfica</strong><time>7 min</time></div>
-      <div class="agenda"><span>05</span><strong>Taller: estado de Bell en IBM Quantum</strong><time>22 min</time></div>
-      <div class="agenda"><span>06</span><strong>Preguntas y cierre</strong><time>5 min</time></div>
+      <div class="agenda"><span>05</span><strong>Preguntas, fuentes y recursos</strong><time>5 min</time></div>
+      <div class="agenda"><span>06</span><strong>Taller: estado de Bell y cierre</strong><time>22 min</time></div>
     </div>
     <div class="footer"><span>El plan original sumaba 100 minutos; esta versión cabe en una hora.</span><span>Ritmo sugerido</span></div>
     <aside class="speaker-notes">Usa esta diapositiva para poner expectativas. El cronómetro integrado inicia con la tecla T. El taller conserva el bloque más largo porque es el ancla memorable.</aside>
@@ -481,196 +481,8 @@
     <aside class="speaker-notes">Entregables: registro criptográfico, mapa de dependencias, matriz de riesgo, criterios de compra y dos pilotos. La primera meta no es migrar todo: es obtener visibilidad y bajar incertidumbre.</aside>
   </section>
 
-  <section class="slide dark" data-section="05 · Taller" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">05</span><span class="pill">22 min</span></div>
-    <div class="content section-title"><p class="eyebrow">De la abstracción al hardware</p><h2>Taller: estado de Bell</h2></div>
-    <span class="section-number">05</span>
-    <div class="footer"><span>Colab · Qiskit · simulador · QPU real</span><span></span></div>
-    <aside class="speaker-notes">Ten abierto el notebook antes de la charla. Ejecuta el simulador primero para garantizar el resultado. El hardware real es bonus sujeto a acceso, cuota y cola.</aside>
-  </section>
-
-  <section class="slide dark" data-section="05 · Taller" data-minutes="1.3">
-    <div class="topline"><span class="eyebrow">Objetivo observable</span><span class="section-chip">Φ⁺</span></div>
-    <div class="content grid2">
-      <div><p class="equation accent">|00⟩ → H → CX<br>→ (|00⟩+|11⟩)/√2</p></div>
-      <div><h2 style="max-width:10ch">Dos puertas. Una correlación.</h2><p class="lede" style="margin-top:1.5rem">Esperamos ≈50% <span class="state">00</span> y ≈50% <span class="state">11</span>.</p><p class="muted" style="margin-top:1rem">El hardware real añade resultados espurios por ruido.</p></div>
-    </div>
-    <div class="footer"><span>Corrección del notebook original: sin X(1).</span><span>Estado de Bell Φ⁺</span></div>
-    <aside class="speaker-notes">El notebook compartido incluía X(1), que produce Ψ+ y resultados 01/10. Esta versión elimina X para que coincida con 00/11. Si quieres mostrar ambos, ejecuta primero Φ+ y luego agrega X(1) antes de H.</aside>
-  </section>
-
-  <section class="slide soft" data-section="05 · Taller" data-minutes="2">
-    <div class="topline"><span class="eyebrow">0 · Preparación</span><span class="section-chip">Google Colab</span></div>
-    <div class="content grid2">
-      <div>
-        <h2>Abre y copia</h2>
-        <p class="lede" style="margin-top:1.3rem"><a href="https://colab.research.google.com/drive/1LM8asOQzPBiZdKB0A8eIs1a5qil_V29X" target="_blank" rel="noreferrer">Notebook compartido ↗</a></p>
-        <p style="margin-top:1rem">Archivo → Guardar una copia en Drive. Ejecuta las celdas en orden.</p>
-      </div>
-      <pre><code><span class="cm"># Celda 1 · instalar</span>
-!pip install -q \
-  'qiskit[visualization]' \
-  qiskit-aer \
-  qiskit-ibm-runtime
-
-<span class="cm"># Si Colab lo pide:</span>
-<span class="cm"># Entorno de ejecución → Reiniciar sesión</span></code></pre>
-    </div>
-    <div class="footer"><span>Plan B: el simulador funciona sin cuenta de IBM.</span><span>2 min</span></div>
-    <aside class="speaker-notes">Pide a asistentes instalar mientras explicas la cuenta. Para un taller estable, entrega también el notebook local corregido incluido con estos materiales.</aside>
-  </section>
-
-  <section class="slide" data-section="05 · Taller" data-minutes="3">
-    <div class="topline"><span class="eyebrow">1 · API key sin exponerla</span><span class="section-chip">IBM Quantum Platform</span></div>
-    <div class="content grid2">
-      <div><ol style="font-size:clamp(1rem,1.55vw,1.35rem);line-height:1.5;padding-left:1.3rem"><li>Entra a <strong>quantum.cloud.ibm.com</strong> e inicia sesión.</li><li>Crea una instancia en <strong>Instances</strong> (plan disponible).</li><li>En Home/Dashboard, crea y copia tu API key de 44 caracteres.</li><li>Opcional: copia el CRN de la instancia.</li><li>En Colab, abre 🔑 <strong>Secrets</strong> y crea <span class="state">IBM_QUANTUM_API_KEY</span>. Activa acceso del notebook.</li></ol></div>
-      <div>
-        <div class="note"><strong>Nunca</strong> pegues la clave en una celda ni la publiques. IBM considera Colab un entorno no confiable: revoca/rota la clave al terminar si fue temporal.</div>
-        <pre style="margin-top:1rem"><code><span class="kw">from</span> google.colab <span class="kw">import</span> userdata
-api_key = userdata.get(<span class="str">"IBM_QUANTUM_API_KEY"</span>)</code></pre>
-      </div>
-    </div>
-    <div class="footer"><span>Guía oficial: IBM · “Initialize the service in an untrusted environment”</span><span>3 min</span></div>
-    <aside class="speaker-notes">IBM advierte que en una máquina pública o nube externa se debe evitar persistir credenciales y cambiar la clave tras el uso. Colab Secrets evita que aparezca en el notebook, pero no convierte el entorno en confiable. Si usan CRN, guárdenlo como un segundo secret IBM_QUANTUM_CRN.</aside>
-  </section>
-
-  <section class="slide soft" data-section="05 · Taller" data-minutes="2.5">
-    <div class="topline"><span class="eyebrow">2 · Construir Φ⁺</span><span class="section-chip">Qiskit</span></div>
-    <div class="content grid2">
-      <pre><code><span class="kw">from</span> qiskit <span class="kw">import</span> QuantumCircuit
-
-bell = QuantumCircuit(2)
-bell.h(0)        <span class="cm"># superposición</span>
-bell.cx(0, 1)    <span class="cm"># entrelazamiento</span>
-bell.measure_all()
-
-bell.draw(<span class="str">"mpl"</span>)</code></pre>
-      <div class="circuit">
-        <svg viewBox="0 0 660 260" class="diagram" role="img" aria-label="Circuito de Bell con Hadamard, CNOT y medición">
-          <line x1="60" y1="75" x2="600" y2="75" stroke="#161616" stroke-width="3"/><line x1="60" y1="175" x2="600" y2="175" stroke="#161616" stroke-width="3"/>
-          <text x="18" y="82" font-size="24">q₀</text><text x="18" y="182" font-size="24">q₁</text>
-          <rect x="130" y="42" width="66" height="66" fill="#8a3ffc"/><text x="151" y="86" font-size="30" fill="white">H</text>
-          <circle cx="310" cy="75" r="10" fill="#161616"/><line x1="310" y1="75" x2="310" y2="175" stroke="#161616" stroke-width="3"/><circle cx="310" cy="175" r="28" fill="white" stroke="#161616" stroke-width="3"/><line x1="282" y1="175" x2="338" y2="175" stroke="#161616" stroke-width="3"/><line x1="310" y1="147" x2="310" y2="203" stroke="#161616" stroke-width="3"/>
-          <rect x="465" y="42" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 92 Q500 50 520 92" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="73" x2="520" y2="58" stroke="#161616" stroke-width="3"/>
-          <rect x="465" y="142" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 192 Q500 150 520 192" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="173" x2="520" y2="158" stroke="#161616" stroke-width="3"/>
-        </svg>
-      </div>
-    </div>
-    <div class="footer"><span>Orden: H crea amplitudes; CX correlaciona; medir produce bits.</span><span>2.5 min</span></div>
-    <aside class="speaker-notes">Recorre estado por estado: |00⟩ → (|00⟩+|10⟩)/√2 en convención conceptual q0 primero; CNOT → Bell Φ+. Advierte que Qiskit muestra bitstrings en orden clásico de mayor a menor índice; como 00/11 son simétricos, aquí no confunde el resultado.</aside>
-  </section>
-
-  <section class="slide dark" data-section="05 · Taller" data-minutes="3">
-    <div class="topline"><span class="eyebrow">3 · Simular primero</span><span class="section-chip">Sin cola · sin credenciales</span></div>
-    <div class="content grid2">
-      <pre><code><span class="kw">from</span> qiskit_aer <span class="kw">import</span> AerSimulator
-<span class="kw">from</span> qiskit <span class="kw">import</span> transpile
-<span class="kw">from</span> qiskit.visualization <span class="kw">import</span> plot_histogram
-
-sim = AerSimulator()
-compiled = transpile(bell, sim)
-result = sim.run(compiled, shots=1024).result()
-counts_sim = result.get_counts()
-
-print(counts_sim)
-plot_histogram(counts_sim)</code></pre>
-      <div>
-        <div class="histogram" aria-label="Histograma ideal esperado">
-          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:88%"></div><span class="bar-label">00</span></div>
-          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">01</span></div>
-          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">10</span></div>
-          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:91%"></div><span class="bar-label">11</span></div>
-        </div>
-        <p class="muted" style="margin-top:1rem">No tiene que ser exactamente 512/512: el muestreo fluctúa.</p>
-      </div>
-    </div>
-    <div class="footer"><span>Checkpoint: si aparecen 01/10, revisa si quedó X(1).</span><span>3 min</span></div>
-    <aside class="speaker-notes">Este bloque es deliberadamente simple y estable. El simulador ideal confirma lógica. 1024 shots da variación binomial; lo importante es correlación y ausencia ideal de 01/10.</aside>
-  </section>
-
-  <section class="slide" data-section="05 · Taller" data-minutes="4">
-    <div class="topline"><span class="eyebrow">4 · Ejecutar en una QPU real</span><span class="section-chip">IBM Quantum Compute</span></div>
-    <div class="content grid2">
-      <pre><code><span class="kw">from</span> qiskit_ibm_runtime <span class="kw">import</span> (
-  QiskitRuntimeService, SamplerV2 <span class="kw">as</span> Sampler
-)
-<span class="kw">from</span> qiskit.transpiler <span class="kw">import</span> generate_preset_pass_manager
-
-service = QiskitRuntimeService(token=api_key)
-backend = service.least_busy(
-  operational=<span class="kw">True</span>, simulator=<span class="kw">False</span>
-)
-
-pm = generate_preset_pass_manager(
-  backend=backend, optimization_level=1
-)
-isa_bell = pm.run(bell)
-
-sampler = Sampler(mode=backend)
-job = sampler.run([isa_bell], shots=1024)
-print(<span class="str">"Job:"</span>, job.job_id())</code></pre>
-      <div>
-        <h2>Mapear → optimizar → ejecutar</h2>
-        <p class="lede" style="margin-top:1.4rem">El transpiler adapta nuestras puertas a la conectividad y al conjunto de instrucciones del dispositivo elegido.</p>
-        <div class="note" style="margin-top:1rem">La cola, cuota o disponibilidad pueden impedir el vivo. Conserva el ID del trabajo y usa el simulador como ruta segura.</div>
-      </div>
-    </div>
-    <div class="footer"><span>Si usas CRN: QiskitRuntimeService(token=api_key, instance=crn)</span><span>4 min + cola</span></div>
-    <aside class="speaker-notes">Antes de enviar, imprime backend.name. No fijes un backend en el material: la flota cambia. Guardar job_id permite recuperar después con service.job(job_id). La guía oficial usa Qiskit Patterns y least_busy.</aside>
-  </section>
-
-  <section class="slide soft" data-section="05 · Taller" data-minutes="2.5">
-    <div class="topline"><span class="eyebrow">5 · Leer el resultado</span><span class="section-chip">SamplerV2</span></div>
-    <div class="content grid2">
-      <pre><code>pub_result = job.result()[0]
-counts_qpu = pub_result.data.meas.get_counts()
-
-print(counts_qpu)
-plot_histogram(
-  [counts_sim, counts_qpu],
-  legend=[<span class="str">"Simulador"</span>, <span class="str">"QPU"</span>]
-)</code></pre>
-      <div>
-        <div class="histogram" aria-label="Histograma ruidoso ilustrativo">
-          <div class="bar-wrap"><span>48%</span><div class="bar noise" style="height:84%"></div><span class="bar-label">00</span></div>
-          <div class="bar-wrap"><span>3%</span><div class="bar noise" style="height:7%"></div><span class="bar-label">01</span></div>
-          <div class="bar-wrap"><span>2%</span><div class="bar noise" style="height:5%"></div><span class="bar-label">10</span></div>
-          <div class="bar-wrap"><span>47%</span><div class="bar noise" style="height:81%"></div><span class="bar-label">11</span></div>
-        </div>
-        <p class="muted" style="margin-top:1rem">Ilustrativo: tus porcentajes dependerán de calibración, mapeo y shots.</p>
-      </div>
-    </div>
-    <div class="footer"><span>Ruido ≠ fracaso: es el dispositivo físico entrando en escena.</span><span>2.5 min</span></div>
-    <aside class="speaker-notes">Errores de lectura y de compuertas producen algo de 01/10. Evita decir “nunca” en hardware real. Un histograma en Z es una demostración pedagógica de correlación; la prueba rigurosa del entrelazamiento requiere más bases.</aside>
-  </section>
-
-  <section class="slide" data-section="05 · Taller" data-minutes="3.4">
-    <div class="topline"><span class="eyebrow">Plan de contingencia en vivo</span><span class="section-chip">La demo no manda</span></div>
-    <div class="content grid3">
-      <div class="card blue-line"><h3>Falla instalación</h3><p>Reinicia sesión; ejecuta imports desde cero. Verifica versiones.</p></div>
-      <div class="card purple-line"><h3>Falla autenticación</h3><p>Confirma acceso del secret, API key activa e instancia/región.</p></div>
-      <div class="card magenta"><h3>Hay cola</h3><p>Muestra job ID, corre Aer y enseña una captura previa de QPU.</p></div>
-      <div class="card"><h3>No hay resultados</h3><p>Recupera después con <span class="state">service.job(job_id)</span>.</p></div>
-      <div class="card"><h3>Salen 01/10</h3><p>Pocos: ruido. Cerca de 50/50: probablemente quedó <span class="state">X(1)</span>.</p></div>
-      <div class="card"><h3>Pregunta difícil</h3><p>El histograma Z muestra correlación, no certifica por sí solo entrelazamiento.</p></div>
-    </div>
-    <div class="footer"><span>Ensaya con el mismo navegador, cuenta y red del evento.</span><span>Checklist del facilitador</span></div>
-    <aside class="speaker-notes">Cierra el taller repitiendo el pipeline: circuito, transpilación, primitive, resultado. Pide a una persona describir por qué el simulador y la QPU difieren.</aside>
-  </section>
-
-  <section class="slide dark" data-section="Cierre" data-minutes="1.2">
-    <div class="topline"><span class="eyebrow">Tres ideas para llevar</span><span class="section-chip">Cierre</span></div>
-    <div class="content grid3">
-      <div class="card magenta"><span class="number">01</span><p class="lede">La amenaza es a la criptografía pública y al tiempo de vida de los datos.</p></div>
-      <div class="card purple-line"><span class="number">02</span><p class="lede">La defensa ya tiene estándares: ML‑KEM, ML‑DSA y SLH‑DSA.</p></div>
-      <div class="card blue-line"><span class="number">03</span><p class="lede">La decisión de hoy es inventario + agilidad + pilotos, no adivinar una fecha.</p></div>
-    </div>
-    <div class="footer"><span>Y dos puertas bastaron para tocar una QPU real.</span><span>De la teoría a la acción</span></div>
-    <aside class="speaker-notes">Frase final: “No necesitamos saber el día exacto en que llegue una CRQC para saber qué debemos hacer el lunes”.</aside>
-  </section>
-
-  <section class="slide purple" data-section="Cierre" data-minutes="3.8">
-    <div class="topline"><span class="eyebrow">06 · Preguntas</span><span class="pill">5 min</span></div>
+  <section class="slide purple" data-section="05 · Preguntas y recursos" data-minutes="3.8">
+    <div class="topline"><span class="eyebrow">05 · Preguntas</span><span class="pill">5 min</span></div>
     <div class="content split-hero">
       <div><p class="giant" style="font-size:clamp(4rem,9vw,9rem);line-height:.84">¿Qué dato<br>no puede<br><span class="accent">esperar?</span></p></div>
       <img class="asset" src="assets/collaboration-purple.svg" alt="Ilustración de dos personas colaborando">
@@ -730,6 +542,194 @@ plot_histogram(
     </div>
     <div class="footer"><span>Presentación pública · GitHub Pages</span><span>Notebook incluido</span></div>
     <aside class="speaker-notes">Deja esta diapositiva proyectada al terminar. El QR abre la versión pública del deck; desde el repositorio los asistentes también pueden descargar el notebook.</aside>
+  </section>
+
+  <section class="slide dark" data-section="06 · Taller" data-minutes="0.3">
+    <div class="topline"><span class="eyebrow">06</span><span class="pill">22 min</span></div>
+    <div class="content section-title"><p class="eyebrow">De la abstracción al hardware</p><h2>Taller: estado de Bell</h2></div>
+    <span class="section-number">06</span>
+    <div class="footer"><span>Colab · Qiskit · simulador · QPU real</span><span></span></div>
+    <aside class="speaker-notes">Ten abierto el notebook antes de la charla. Ejecuta el simulador primero para garantizar el resultado. El hardware real es bonus sujeto a acceso, cuota y cola.</aside>
+  </section>
+
+  <section class="slide dark" data-section="06 · Taller" data-minutes="1.3">
+    <div class="topline"><span class="eyebrow">Objetivo observable</span><span class="section-chip">Φ⁺</span></div>
+    <div class="content grid2">
+      <div><p class="equation accent">|00⟩ → H → CX<br>→ (|00⟩+|11⟩)/√2</p></div>
+      <div><h2 style="max-width:10ch">Dos puertas. Una correlación.</h2><p class="lede" style="margin-top:1.5rem">Esperamos ≈50% <span class="state">00</span> y ≈50% <span class="state">11</span>.</p><p class="muted" style="margin-top:1rem">El hardware real añade resultados espurios por ruido.</p></div>
+    </div>
+    <div class="footer"><span>Corrección del notebook original: sin X(1).</span><span>Estado de Bell Φ⁺</span></div>
+    <aside class="speaker-notes">El notebook compartido incluía X(1), que produce Ψ+ y resultados 01/10. Esta versión elimina X para que coincida con 00/11. Si quieres mostrar ambos, ejecuta primero Φ+ y luego agrega X(1) antes de H.</aside>
+  </section>
+
+  <section class="slide soft" data-section="06 · Taller" data-minutes="2">
+    <div class="topline"><span class="eyebrow">0 · Preparación</span><span class="section-chip">Google Colab</span></div>
+    <div class="content grid2">
+      <div>
+        <h2>Abre y copia</h2>
+        <p class="lede" style="margin-top:1.3rem"><a href="https://colab.research.google.com/drive/1LM8asOQzPBiZdKB0A8eIs1a5qil_V29X" target="_blank" rel="noreferrer">Notebook compartido ↗</a></p>
+        <p style="margin-top:1rem">Archivo → Guardar una copia en Drive. Ejecuta las celdas en orden.</p>
+      </div>
+      <pre><code><span class="cm"># Celda 1 · instalar</span>
+!pip install -q \
+  'qiskit[visualization]' \
+  qiskit-aer \
+  qiskit-ibm-runtime
+
+<span class="cm"># Si Colab lo pide:</span>
+<span class="cm"># Entorno de ejecución → Reiniciar sesión</span></code></pre>
+    </div>
+    <div class="footer"><span>Plan B: el simulador funciona sin cuenta de IBM.</span><span>2 min</span></div>
+    <aside class="speaker-notes">Pide a asistentes instalar mientras explicas la cuenta. Para un taller estable, entrega también el notebook local corregido incluido con estos materiales.</aside>
+  </section>
+
+  <section class="slide" data-section="06 · Taller" data-minutes="3">
+    <div class="topline"><span class="eyebrow">1 · API key sin exponerla</span><span class="section-chip">IBM Quantum Platform</span></div>
+    <div class="content grid2">
+      <div><ol style="font-size:clamp(1rem,1.55vw,1.35rem);line-height:1.5;padding-left:1.3rem"><li>Entra a <strong>quantum.cloud.ibm.com</strong> e inicia sesión.</li><li>Crea una instancia en <strong>Instances</strong> (plan disponible).</li><li>En Home/Dashboard, crea y copia tu API key de 44 caracteres.</li><li>Opcional: copia el CRN de la instancia.</li><li>En Colab, abre 🔑 <strong>Secrets</strong> y crea <span class="state">IBM_QUANTUM_API_KEY</span>. Activa acceso del notebook.</li></ol></div>
+      <div>
+        <div class="note"><strong>Nunca</strong> pegues la clave en una celda ni la publiques. IBM considera Colab un entorno no confiable: revoca/rota la clave al terminar si fue temporal.</div>
+        <pre style="margin-top:1rem"><code><span class="kw">from</span> google.colab <span class="kw">import</span> userdata
+api_key = userdata.get(<span class="str">"IBM_QUANTUM_API_KEY"</span>)</code></pre>
+      </div>
+    </div>
+    <div class="footer"><span>Guía oficial: IBM · “Initialize the service in an untrusted environment”</span><span>3 min</span></div>
+    <aside class="speaker-notes">IBM advierte que en una máquina pública o nube externa se debe evitar persistir credenciales y cambiar la clave tras el uso. Colab Secrets evita que aparezca en el notebook, pero no convierte el entorno en confiable. Si usan CRN, guárdenlo como un segundo secret IBM_QUANTUM_CRN.</aside>
+  </section>
+
+  <section class="slide soft" data-section="06 · Taller" data-minutes="2.5">
+    <div class="topline"><span class="eyebrow">2 · Construir Φ⁺</span><span class="section-chip">Qiskit</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit <span class="kw">import</span> QuantumCircuit
+
+bell = QuantumCircuit(2)
+bell.h(0)        <span class="cm"># superposición</span>
+bell.cx(0, 1)    <span class="cm"># entrelazamiento</span>
+bell.measure_all()
+
+bell.draw(<span class="str">"mpl"</span>)</code></pre>
+      <div class="circuit">
+        <svg viewBox="0 0 660 260" class="diagram" role="img" aria-label="Circuito de Bell con Hadamard, CNOT y medición">
+          <line x1="60" y1="75" x2="600" y2="75" stroke="#161616" stroke-width="3"/><line x1="60" y1="175" x2="600" y2="175" stroke="#161616" stroke-width="3"/>
+          <text x="18" y="82" font-size="24">q₀</text><text x="18" y="182" font-size="24">q₁</text>
+          <rect x="130" y="42" width="66" height="66" fill="#8a3ffc"/><text x="151" y="86" font-size="30" fill="white">H</text>
+          <circle cx="310" cy="75" r="10" fill="#161616"/><line x1="310" y1="75" x2="310" y2="175" stroke="#161616" stroke-width="3"/><circle cx="310" cy="175" r="28" fill="white" stroke="#161616" stroke-width="3"/><line x1="282" y1="175" x2="338" y2="175" stroke="#161616" stroke-width="3"/><line x1="310" y1="147" x2="310" y2="203" stroke="#161616" stroke-width="3"/>
+          <rect x="465" y="42" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 92 Q500 50 520 92" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="73" x2="520" y2="58" stroke="#161616" stroke-width="3"/>
+          <rect x="465" y="142" width="70" height="66" fill="#d0e2ff" stroke="#161616"/><path d="M480 192 Q500 150 520 192" fill="none" stroke="#161616" stroke-width="3"/><line x1="500" y1="173" x2="520" y2="158" stroke="#161616" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+    <div class="footer"><span>Orden: H crea amplitudes; CX correlaciona; medir produce bits.</span><span>2.5 min</span></div>
+    <aside class="speaker-notes">Recorre estado por estado: |00⟩ → (|00⟩+|10⟩)/√2 en convención conceptual q0 primero; CNOT → Bell Φ+. Advierte que Qiskit muestra bitstrings en orden clásico de mayor a menor índice; como 00/11 son simétricos, aquí no confunde el resultado.</aside>
+  </section>
+
+  <section class="slide dark" data-section="06 · Taller" data-minutes="3">
+    <div class="topline"><span class="eyebrow">3 · Simular primero</span><span class="section-chip">Sin cola · sin credenciales</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit_aer <span class="kw">import</span> AerSimulator
+<span class="kw">from</span> qiskit <span class="kw">import</span> transpile
+<span class="kw">from</span> qiskit.visualization <span class="kw">import</span> plot_histogram
+
+sim = AerSimulator()
+compiled = transpile(bell, sim)
+result = sim.run(compiled, shots=1024).result()
+counts_sim = result.get_counts()
+
+print(counts_sim)
+plot_histogram(counts_sim)</code></pre>
+      <div>
+        <div class="histogram" aria-label="Histograma ideal esperado">
+          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:88%"></div><span class="bar-label">00</span></div>
+          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">01</span></div>
+          <div class="bar-wrap"><span>0</span><div class="bar" style="height:1%"></div><span class="bar-label">10</span></div>
+          <div class="bar-wrap"><span>≈512</span><div class="bar" style="height:91%"></div><span class="bar-label">11</span></div>
+        </div>
+        <p class="muted" style="margin-top:1rem">No tiene que ser exactamente 512/512: el muestreo fluctúa.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Checkpoint: si aparecen 01/10, revisa si quedó X(1).</span><span>3 min</span></div>
+    <aside class="speaker-notes">Este bloque es deliberadamente simple y estable. El simulador ideal confirma lógica. 1024 shots da variación binomial; lo importante es correlación y ausencia ideal de 01/10.</aside>
+  </section>
+
+  <section class="slide" data-section="06 · Taller" data-minutes="4">
+    <div class="topline"><span class="eyebrow">4 · Ejecutar en una QPU real</span><span class="section-chip">IBM Quantum Compute</span></div>
+    <div class="content grid2">
+      <pre><code><span class="kw">from</span> qiskit_ibm_runtime <span class="kw">import</span> (
+  QiskitRuntimeService, SamplerV2 <span class="kw">as</span> Sampler
+)
+<span class="kw">from</span> qiskit.transpiler <span class="kw">import</span> generate_preset_pass_manager
+
+service = QiskitRuntimeService(token=api_key)
+backend = service.least_busy(
+  operational=<span class="kw">True</span>, simulator=<span class="kw">False</span>
+)
+
+pm = generate_preset_pass_manager(
+  backend=backend, optimization_level=1
+)
+isa_bell = pm.run(bell)
+
+sampler = Sampler(mode=backend)
+job = sampler.run([isa_bell], shots=1024)
+print(<span class="str">"Job:"</span>, job.job_id())</code></pre>
+      <div>
+        <h2>Mapear → optimizar → ejecutar</h2>
+        <p class="lede" style="margin-top:1.4rem">El transpiler adapta nuestras puertas a la conectividad y al conjunto de instrucciones del dispositivo elegido.</p>
+        <div class="note" style="margin-top:1rem">La cola, cuota o disponibilidad pueden impedir el vivo. Conserva el ID del trabajo y usa el simulador como ruta segura.</div>
+      </div>
+    </div>
+    <div class="footer"><span>Si usas CRN: QiskitRuntimeService(token=api_key, instance=crn)</span><span>4 min + cola</span></div>
+    <aside class="speaker-notes">Antes de enviar, imprime backend.name. No fijes un backend en el material: la flota cambia. Guardar job_id permite recuperar después con service.job(job_id). La guía oficial usa Qiskit Patterns y least_busy.</aside>
+  </section>
+
+  <section class="slide soft" data-section="06 · Taller" data-minutes="2.5">
+    <div class="topline"><span class="eyebrow">5 · Leer el resultado</span><span class="section-chip">SamplerV2</span></div>
+    <div class="content grid2">
+      <pre><code>pub_result = job.result()[0]
+counts_qpu = pub_result.data.meas.get_counts()
+
+print(counts_qpu)
+plot_histogram(
+  [counts_sim, counts_qpu],
+  legend=[<span class="str">"Simulador"</span>, <span class="str">"QPU"</span>]
+)</code></pre>
+      <div>
+        <div class="histogram" aria-label="Histograma ruidoso ilustrativo">
+          <div class="bar-wrap"><span>48%</span><div class="bar noise" style="height:84%"></div><span class="bar-label">00</span></div>
+          <div class="bar-wrap"><span>3%</span><div class="bar noise" style="height:7%"></div><span class="bar-label">01</span></div>
+          <div class="bar-wrap"><span>2%</span><div class="bar noise" style="height:5%"></div><span class="bar-label">10</span></div>
+          <div class="bar-wrap"><span>47%</span><div class="bar noise" style="height:81%"></div><span class="bar-label">11</span></div>
+        </div>
+        <p class="muted" style="margin-top:1rem">Ilustrativo: tus porcentajes dependerán de calibración, mapeo y shots.</p>
+      </div>
+    </div>
+    <div class="footer"><span>Ruido ≠ fracaso: es el dispositivo físico entrando en escena.</span><span>2.5 min</span></div>
+    <aside class="speaker-notes">Errores de lectura y de compuertas producen algo de 01/10. Evita decir “nunca” en hardware real. Un histograma en Z es una demostración pedagógica de correlación; la prueba rigurosa del entrelazamiento requiere más bases.</aside>
+  </section>
+
+  <section class="slide" data-section="06 · Taller" data-minutes="3.4">
+    <div class="topline"><span class="eyebrow">Plan de contingencia en vivo</span><span class="section-chip">La demo no manda</span></div>
+    <div class="content grid3">
+      <div class="card blue-line"><h3>Falla instalación</h3><p>Reinicia sesión; ejecuta imports desde cero. Verifica versiones.</p></div>
+      <div class="card purple-line"><h3>Falla autenticación</h3><p>Confirma acceso del secret, API key activa e instancia/región.</p></div>
+      <div class="card magenta"><h3>Hay cola</h3><p>Muestra job ID, corre Aer y enseña una captura previa de QPU.</p></div>
+      <div class="card"><h3>No hay resultados</h3><p>Recupera después con <span class="state">service.job(job_id)</span>.</p></div>
+      <div class="card"><h3>Salen 01/10</h3><p>Pocos: ruido. Cerca de 50/50: probablemente quedó <span class="state">X(1)</span>.</p></div>
+      <div class="card"><h3>Pregunta difícil</h3><p>El histograma Z muestra correlación, no certifica por sí solo entrelazamiento.</p></div>
+    </div>
+    <div class="footer"><span>Ensaya con el mismo navegador, cuenta y red del evento.</span><span>Checklist del facilitador</span></div>
+    <aside class="speaker-notes">Cierra el taller repitiendo el pipeline: circuito, transpilación, primitive, resultado. Pide a una persona describir por qué el simulador y la QPU difieren.</aside>
+  </section>
+
+  <section class="slide dark" data-section="Cierre" data-minutes="1.2">
+    <div class="topline"><span class="eyebrow">Tres ideas para llevar</span><span class="section-chip">Cierre</span></div>
+    <div class="content grid3">
+      <div class="card magenta"><span class="number">01</span><p class="lede">La amenaza es a la criptografía pública y al tiempo de vida de los datos.</p></div>
+      <div class="card purple-line"><span class="number">02</span><p class="lede">La defensa ya tiene estándares: ML‑KEM, ML‑DSA y SLH‑DSA.</p></div>
+      <div class="card blue-line"><span class="number">03</span><p class="lede">La decisión de hoy es inventario + agilidad + pilotos, no adivinar una fecha.</p></div>
+    </div>
+    <div class="footer"><span>Y dos puertas bastaron para tocar una QPU real.</span><span>De la teoría a la acción</span></div>
+    <aside class="speaker-notes">Frase final: “No necesitamos saber el día exacto en que llegue una CRQC para saber qué debemos hacer el lunes”.</aside>
   </section>
 </main>
 
