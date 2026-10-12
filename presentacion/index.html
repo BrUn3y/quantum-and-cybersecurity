@@ -119,6 +119,8 @@
     .standard .tag { font-family: ui-monospace, monospace; font-size: .85rem; }
     .standard h3 { font-size: clamp(1.5rem, 2.5vw, 2.4rem); }
     .standard p { line-height: 1.4; }
+    .standard .source-link { width: fit-content; font-size: clamp(.75rem, 1vw, .9rem); font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .12rem; }
+    .standard .source-link:hover, .standard .source-link:focus-visible { color: var(--blue); outline: 2px solid currentColor; outline-offset: .25rem; }
     .flow { display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; gap: .7rem; }
     .flow > div:not(.chev) { padding: 1rem; background: var(--paper); min-height: 8rem; }
     .flow .chev { text-align: center; font-size: 2rem; color: var(--violet); }
@@ -399,12 +401,12 @@
   <section class="slide soft" data-section="03 · Defensa" data-minutes="2.4">
     <div class="topline"><span class="eyebrow">Estándares NIST finalizados</span><span class="section-chip">13 ago 2024</span></div>
     <div class="content grid3">
-      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem">Encapsulación de claves basada en retículas modulares. Principal opción para establecer secretos.</p></div><span class="pill">antes Kyber</span></article>
-      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem">Firma digital basada en retículas modulares. Principal estándar de firmas PQC.</p></div><span class="pill">antes Dilithium</span></article>
-      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem">Firma sin estado basada en hashes. Alternativa con supuestos matemáticos distintos.</p></div><span class="pill">antes SPHINCS+</span></article>
+      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem">Encapsulación de claves basada en retículas modulares. Principal opción para establecer secretos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.203" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Kyber</span></article>
+      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem">Firma digital basada en retículas modulares. Principal estándar de firmas PQC.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.204" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Dilithium</span></article>
+      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem">Firma sin estado basada en hashes. Alternativa con supuestos matemáticos distintos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.205" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes SPHINCS+</span></article>
     </div>
     <div class="footer"><span>NIST: listos para uso; no es necesario esperar futuros estándares.</span><span>FIPS 203 · 204 · 205</span></div>
-    <aside class="speaker-notes">No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo, pero no reemplaza la recomendación de empezar con los estándares finales.</aside>
+    <aside class="speaker-notes">ML significa “Module-Lattice” (retículas modulares): ML-KEM es un mecanismo de encapsulación de claves y ML-DSA es un algoritmo de firma digital. No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo, pero no reemplaza la recomendación de empezar con los estándares finales.</aside>
   </section>
 
   <section class="slide" data-section="03 · Defensa" data-minutes="1.8">
