@@ -80,10 +80,9 @@
     .card.blue-line { border-color: var(--blue); }
     .card p { margin-top: .7rem; font-size: clamp(.9rem, 1.45vw, 1.3rem); line-height: 1.35; }
     .number { font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 300; line-height: 1; }
-    .agenda { display: grid; grid-template-columns: 4rem 1fr 5rem; align-items: center; border-top: 1px solid var(--line); padding: clamp(.55rem, 1.1vh, 1rem) 0; font-size: clamp(1rem, 1.7vw, 1.45rem); }
+    .agenda { display: grid; grid-template-columns: 4rem 1fr; align-items: center; border-top: 1px solid var(--line); padding: clamp(.55rem, 1.1vh, 1rem) 0; font-size: clamp(1rem, 1.7vw, 1.45rem); }
     .agenda:last-child { border-bottom: 1px solid var(--line); }
     .agenda strong { font-weight: 500; }
-    .agenda time { text-align: right; color: var(--muted); }
     .compare { display: grid; grid-template-columns: repeat(2, 1fr); height: 100%; }
     .compare > div { padding: clamp(2rem, 5vw, 5rem); display: flex; flex-direction: column; justify-content: center; gap: 1.4rem; }
     .compare > div:first-child { background: #e0e0e0; }
@@ -144,6 +143,8 @@
     .pill { display: inline-block; padding: .35rem .65rem; border: 1px solid currentColor; border-radius: 999px; font-size: .85rem; }
     .note { background: #fff1f1; border-left: .35rem solid var(--red); padding: 1rem; line-height: 1.35; }
     .success { background: #defbe6; border-left: .35rem solid var(--green); padding: 1rem; line-height: 1.35; }
+    .short-link { margin-top: 1.35rem; padding-left: 1rem; border-left: .35rem solid var(--violet); }
+    .short-link a { display: block; margin-top: .35rem; font: 600 clamp(.8rem, 1.15vw, 1.15rem)/1.35 "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--purple); overflow-wrap: anywhere; text-decoration-thickness: .08em; text-underline-offset: .18em; user-select: all; }
     .speaker-notes { display: none; }
     .notes-panel { position: fixed; z-index: 30; right: 1rem; top: 1rem; bottom: 4.5rem; width: min(32rem, 42vw); overflow: auto; background: rgba(22,22,22,.97); color: white; padding: 1.4rem; box-shadow: 0 12px 40px #0008; display: none; line-height: 1.5; }
     .notes-panel.open { display: block; }
@@ -181,7 +182,7 @@
 <main class="deck" id="deck" aria-live="polite">
 
   <section class="slide dark active" data-section="Apertura" data-minutes="0.5">
-    <div class="topline"><span class="eyebrow">Computación cuántica × ciberseguridad</span><span class="pill">60 min</span></div>
+    <div class="topline"><span class="eyebrow">Computación cuántica × ciberseguridad</span></div>
     <div class="content split-hero">
       <div>
         <h1>Ciberseguridad<br>en la era <span class="accent">cuántica</span></h1>
@@ -204,21 +205,21 @@
   </section>
 
   <section class="slide soft" data-section="Apertura" data-minutes="0.5">
-    <div class="topline"><span class="eyebrow">Ruta de 60 minutos</span><span class="muted">Teoría → riesgo → acción → código</span></div>
+    <div class="topline"><span class="eyebrow">Ruta de la sesión</span><span class="muted">Teoría → riesgo → acción → código</span></div>
     <div class="content">
-      <div class="agenda"><span>01</span><strong>Intuición cuántica y Qiskit</strong><time>8 min</time></div>
-      <div class="agenda"><span>02</span><strong>La amenaza a la criptografía</strong><time>10 min</time></div>
-      <div class="agenda"><span>03</span><strong>Defensa poscuántica</strong><time>8 min</time></div>
-      <div class="agenda"><span>04</span><strong>Migración y agilidad criptográfica</strong><time>7 min</time></div>
-      <div class="agenda"><span>05</span><strong>Preguntas, fuentes y recursos</strong><time>5 min</time></div>
-      <div class="agenda"><span>06</span><strong>Taller: estado de Bell y cierre</strong><time>22 min</time></div>
+      <div class="agenda"><span>01</span><strong>Intuición cuántica y Qiskit</strong></div>
+      <div class="agenda"><span>02</span><strong>La amenaza a la criptografía</strong></div>
+      <div class="agenda"><span>03</span><strong>Defensa poscuántica</strong></div>
+      <div class="agenda"><span>04</span><strong>Migración y agilidad criptográfica</strong></div>
+      <div class="agenda"><span>05</span><strong>Preguntas, fuentes y recursos</strong></div>
+      <div class="agenda"><span>06</span><strong>Taller: estado de Bell y cierre</strong></div>
     </div>
-    <div class="footer"><span>El plan original sumaba 100 minutos; esta versión cabe en una hora.</span><span>Ritmo sugerido</span></div>
+    <div class="footer"><span>De la teoría a la práctica en seis bloques.</span><span>Ruta sugerida</span></div>
     <aside class="speaker-notes">Usa esta diapositiva para poner expectativas. El cronómetro integrado inicia con la tecla T. El taller conserva el bloque más largo porque es el ancla memorable.</aside>
   </section>
 
   <section class="slide purple" data-section="01 · Fundamentos" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">01</span><span class="pill">8 min</span></div>
+    <div class="topline"><span class="eyebrow">01</span></div>
     <div class="content section-title"><p class="eyebrow">Primero, la intuición</p><h2>Computación cuántica</h2></div>
     <span class="section-number">01</span>
     <div class="footer"><span>Superposición · entrelazamiento · arquitectura · Qiskit</span><span></span></div>
@@ -304,7 +305,7 @@
   </section>
 
   <section class="slide dark" data-section="02 · Amenaza" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">02</span><span class="pill">10 min</span></div>
+    <div class="topline"><span class="eyebrow">02</span></div>
     <div class="content section-title"><p class="eyebrow">La deuda ya existe</p><h2>La amenaza criptográfica</h2></div>
     <span class="section-number">02</span>
     <div class="footer"><span>Datos longevos · Shor · impacto real</span><span></span></div>
@@ -377,7 +378,7 @@
   </section>
 
   <section class="slide blue" data-section="03 · Defensa" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">03</span><span class="pill">8 min</span></div>
+    <div class="topline"><span class="eyebrow">03</span></div>
     <div class="content section-title"><p class="eyebrow">Defender sin una QPU</p><h2>Criptografía poscuántica</h2></div>
     <span class="section-number">03</span>
     <div class="footer"><span>Algoritmos clásicos · nuevos supuestos · estándares finales</span><span></span></div>
@@ -434,7 +435,7 @@
   </section>
 
   <section class="slide purple" data-section="04 · Migración" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">04</span><span class="pill">7 min</span></div>
+    <div class="topline"><span class="eyebrow">04</span></div>
     <div class="content section-title"><p class="eyebrow">Convertir incertidumbre en decisiones</p><h2>Migración y agilidad</h2></div>
     <span class="section-number">04</span>
     <div class="footer"><span>Inventario · Mosca · hoja de ruta</span><span></span></div>
@@ -482,7 +483,7 @@
   </section>
 
   <section class="slide purple" data-section="05 · Preguntas y recursos" data-minutes="3.8">
-    <div class="topline"><span class="eyebrow">05 · Preguntas</span><span class="pill">5 min</span></div>
+    <div class="topline"><span class="eyebrow">05 · Preguntas</span></div>
     <div class="content split-hero">
       <div><p class="giant" style="font-size:clamp(4rem,9vw,9rem);line-height:.84">¿Qué dato<br>no puede<br><span class="accent">esperar?</span></p></div>
       <img class="asset" src="assets/collaboration-purple.svg" alt="Ilustración de dos personas colaborando">
@@ -545,7 +546,7 @@
   </section>
 
   <section class="slide dark" data-section="06 · Taller" data-minutes="0.3">
-    <div class="topline"><span class="eyebrow">06</span><span class="pill">22 min</span></div>
+    <div class="topline"><span class="eyebrow">06</span></div>
     <div class="content section-title"><p class="eyebrow">De la abstracción al hardware</p><h2>Taller: estado de Bell</h2></div>
     <span class="section-number">06</span>
     <div class="footer"><span>Colab · Qiskit · simulador · QPU real</span><span></span></div>
@@ -567,7 +568,8 @@
     <div class="content grid2">
       <div>
         <h2>Abre y copia</h2>
-        <p class="lede" style="margin-top:1.3rem"><a href="https://colab.research.google.com/drive/1LM8asOQzPBiZdKB0A8eIs1a5qil_V29X" target="_blank" rel="noreferrer">Notebook compartido ↗</a></p>
+        <p class="lede" style="margin-top:1.3rem"><a href="https://brun3y.github.io/quantum-and-cybersecurity/bell" target="_blank" rel="noreferrer">Abrir notebook ↗</a></p>
+        <p class="short-link"><strong>Enlace corto para copiar</strong><a href="https://brun3y.github.io/quantum-and-cybersecurity/bell" target="_blank" rel="noreferrer">brun3y.github.io/quantum-and-cybersecurity/bell</a></p>
         <p style="margin-top:1rem">Archivo → Guardar una copia en Drive. Ejecuta las celdas en orden.</p>
       </div>
       <pre><code><span class="cm"># Celda 1 · instalar</span>
@@ -579,7 +581,7 @@
 <span class="cm"># Si Colab lo pide:</span>
 <span class="cm"># Entorno de ejecución → Reiniciar sesión</span></code></pre>
     </div>
-    <div class="footer"><span>Plan B: el simulador funciona sin cuenta de IBM.</span><span>2 min</span></div>
+    <div class="footer"><span>Plan B: el simulador funciona sin cuenta de IBM.</span><span></span></div>
     <aside class="speaker-notes">Pide a asistentes instalar mientras explicas la cuenta. Para un taller estable, entrega también el notebook local corregido incluido con estos materiales.</aside>
   </section>
 
@@ -593,7 +595,7 @@
 api_key = userdata.get(<span class="str">"IBM_QUANTUM_API_KEY"</span>)</code></pre>
       </div>
     </div>
-    <div class="footer"><span>Guía oficial: IBM · “Initialize the service in an untrusted environment”</span><span>3 min</span></div>
+    <div class="footer"><span>Guía oficial: IBM · “Initialize the service in an untrusted environment”</span><span></span></div>
     <aside class="speaker-notes">IBM advierte que en una máquina pública o nube externa se debe evitar persistir credenciales y cambiar la clave tras el uso. Colab Secrets evita que aparezca en el notebook, pero no convierte el entorno en confiable. Si usan CRN, guárdenlo como un segundo secret IBM_QUANTUM_CRN.</aside>
   </section>
 
@@ -619,7 +621,7 @@ bell.draw(<span class="str">"mpl"</span>)</code></pre>
         </svg>
       </div>
     </div>
-    <div class="footer"><span>Orden: H crea amplitudes; CX correlaciona; medir produce bits.</span><span>2.5 min</span></div>
+    <div class="footer"><span>Orden: H crea amplitudes; CX correlaciona; medir produce bits.</span><span></span></div>
     <aside class="speaker-notes">Recorre estado por estado: |00⟩ → (|00⟩+|10⟩)/√2 en convención conceptual q0 primero; CNOT → Bell Φ+. Advierte que Qiskit muestra bitstrings en orden clásico de mayor a menor índice; como 00/11 son simétricos, aquí no confunde el resultado.</aside>
   </section>
 
@@ -647,7 +649,7 @@ plot_histogram(counts_sim)</code></pre>
         <p class="muted" style="margin-top:1rem">No tiene que ser exactamente 512/512: el muestreo fluctúa.</p>
       </div>
     </div>
-    <div class="footer"><span>Checkpoint: si aparecen 01/10, revisa si quedó X(1).</span><span>3 min</span></div>
+    <div class="footer"><span>Checkpoint: si aparecen 01/10, revisa si quedó X(1).</span><span></span></div>
     <aside class="speaker-notes">Este bloque es deliberadamente simple y estable. El simulador ideal confirma lógica. 1024 shots da variación binomial; lo importante es correlación y ausencia ideal de 01/10.</aside>
   </section>
 
@@ -678,7 +680,7 @@ print(<span class="str">"Job:"</span>, job.job_id())</code></pre>
         <div class="note" style="margin-top:1rem">La cola, cuota o disponibilidad pueden impedir el vivo. Conserva el ID del trabajo y usa el simulador como ruta segura.</div>
       </div>
     </div>
-    <div class="footer"><span>Si usas CRN: QiskitRuntimeService(token=api_key, instance=crn)</span><span>4 min + cola</span></div>
+    <div class="footer"><span>Si usas CRN: QiskitRuntimeService(token=api_key, instance=crn)</span><span></span></div>
     <aside class="speaker-notes">Antes de enviar, imprime backend.name. No fijes un backend en el material: la flota cambia. Guardar job_id permite recuperar después con service.job(job_id). La guía oficial usa Qiskit Patterns y least_busy.</aside>
   </section>
 
@@ -703,7 +705,7 @@ plot_histogram(
         <p class="muted" style="margin-top:1rem">Ilustrativo: tus porcentajes dependerán de calibración, mapeo y shots.</p>
       </div>
     </div>
-    <div class="footer"><span>Ruido ≠ fracaso: es el dispositivo físico entrando en escena.</span><span>2.5 min</span></div>
+    <div class="footer"><span>Ruido ≠ fracaso: es el dispositivo físico entrando en escena.</span><span></span></div>
     <aside class="speaker-notes">Errores de lectura y de compuertas producen algo de 01/10. Evita decir “nunca” en hardware real. Un histograma en Z es una demostración pedagógica de correlación; la prueba rigurosa del entrelazamiento requiere más bases.</aside>
   </section>
 
