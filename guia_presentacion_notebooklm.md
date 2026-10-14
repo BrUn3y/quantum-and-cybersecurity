@@ -182,11 +182,11 @@ Analogía breve: dos ondas pueden sumarse o cancelarse. El beneficio cuántico s
 
 *Sección: 01 · Fundamentos · Tiempo sugerido: 1.4 min*
 
-Entrelazamiento Correlación no separable
+Entrelazamiento Resultados relacionados
 
 |Φ⁺⟩ = (|00⟩ + |11⟩)/√2
 
-El sistema completo tiene una descripción precisa; cada qubit por separado no tiene un estado puro independiente.
+Estos dos qubits se comportan como un par. Al medirlos, ambos dan 0 o ambos dan 1.
 
 ≈50%
 
@@ -196,7 +196,7 @@ El sistema completo tiene una descripción precisa; cada qubit por separado no t
 
 11
 
-Resultados correlacionados. No permite enviar información más rápido que la luz.
+En este ejemplo, sus resultados siempre coinciden. Esto no permite enviar mensajes más rápido que la luz.
 
 Esto es lo que construiremos en el taller. Base Z
 
