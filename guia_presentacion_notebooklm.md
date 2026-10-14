@@ -238,7 +238,7 @@ Expresar el problema en circuitos y observables.
 
 ##### Optimizar
 
-Transpilar a la ISA, conectividad y compuertas de la QPU.
+Adaptar el circuito a la ISA (arquitectura del conjunto de instrucciones) y a las conexiones de la QPU (procesador cuántico).
 
 ##### Ejecutar
 
@@ -248,7 +248,7 @@ Usar primitivas como Sampler o Estimator.
 
 Interpretar distribuciones, ruido e incertidumbre.
 
-Qiskit SDK construye y transforma. IBM Quantum Platform autentica, agenda y ejecuta en QPUs.
+Qiskit construye y transforma los circuitos. IBM Quantum Platform los agenda y ejecuta en procesadores cuánticos.
 
 El taller recorre las cuatro etapas. quantum.cloud.ibm.com
 
@@ -282,7 +282,7 @@ Transición: “El riesgo no comienza cuando aparezca la máquina; comienza cuan
 
 *Sección: 02 · Amenaza · Tiempo sugerido: 1.6 min*
 
-Capturar ahora, descifrar después HNDL
+Capturar ahora, descifrar después Riesgo de datos longevos
 
 ##### Hoy
 
@@ -294,7 +294,7 @@ Conservar lo que mantenga valor: historiales, diseños, diplomacia.
 
 ##### CRQC
 
-Descifrar material protegido con criptografía pública vulnerable.
+Una computadora cuántica criptanalíticamente relevante podría descifrar criptografía pública vulnerable.
 
 La variable urgente no es solo “cuándo llega la computadora”, sino cuánto tiempo debe vivir el secreto.
 
@@ -344,31 +344,40 @@ No presentes estos ejemplos como ataques cuánticos ocurridos. Son escenarios pl
 
 ---
 
-## Diapositiva 13: El mapa de impacto
+## Diapositiva 13: Dos formas de proteger información
 
 *Sección: 02 · Amenaza · Tiempo sugerido: 2 min*
 
-El mapa de impacto Shor
+Dos formas de proteger información Simétrica vs. asimétrica
 
-##### Problema matemático
+##### Simétrica
 
-Factorización entera
-RSA
+Una clave secreta compartida.
 
-Logaritmo discreto
-DH · DSA · ECC
+La misma clave cifra y descifra. Es rápida y protege el volumen principal de los datos.
 
-→
+AES: Estándar de Cifrado Avanzado.
 
-##### Algoritmo de Shor
+Impacto cuántico: Grover reduce cuadráticamente la búsqueda de claves; usar claves más largas conserva margen de seguridad.
 
-Tiempo polinómico en una computadora cuántica tolerante a fallos suficientemente grande.
+##### Asimétrica
 
-Impacta intercambio de claves, cifrado asimétrico y firmas. Shor, FOCS 1994
+Un par: pública + privada.
+
+La pública se comparte; la privada se protege. Permite acordar claves, cifrar o firmar sin compartir antes un secreto.
+
+- RSA: Rivest–Shamir–Adleman (cifrado y firma)
+- DH: Diffie–Hellman (acuerdo de claves)
+- DSA: algoritmo de firma digital
+- ECC: criptografía de curva elíptica
+
+Impacto cuántico: Shor rompe los supuestos de factorización y logaritmo discreto usados por estas familias.
+
+En TLS: la asimétrica autentica y acuerda; la simétrica cifra la sesión. Shor ≠ Grover
 
 ### Notas del presentador
 
-RSA depende de la dificultad de factorizar. ECC y Diffie-Hellman dependen de variantes del logaritmo discreto. Shor resuelve ambas familias. Precisión: TLS usa típicamente RSA/ECDSA para autenticación y ECDHE para acuerdo; el contenido se cifra simétricamente después.
+La criptografía simétrica requiere que ambas partes conozcan el mismo secreto; AES es el ejemplo principal y se usa para cifrar grandes volúmenes. La asimétrica usa una clave pública y una privada: RSA puede cifrar o firmar; DH acuerda claves; DSA firma; ECC agrupa construcciones de acuerdo y firma. Shor ataca factorización y logaritmo discreto. Grover ofrece una aceleración cuadrática ideal sobre búsqueda exhaustiva, por lo que no equivale a romper AES de la misma forma.
 
 ---
 
@@ -394,7 +403,7 @@ Evaluar coherentemente una función periódica.
 
 ##### Interferir
 
-La QFT concentra amplitud en información del periodo.
+La QFT (transformada cuántica de Fourier) concentra amplitud en información del periodo.
 
 4
 
@@ -458,7 +467,7 @@ Transición: “La defensa principal no requiere computadoras cuánticas”.
 
 *Sección: 03 · Defensa · Tiempo sugerido: 1.5 min*
 
-PQC en una frase Criptografía clásica
+Criptografía poscuántica (PQC) Criptografía clásica
 
 Nuevas matemáticas.
 Las mismas computadoras.
@@ -473,7 +482,7 @@ Acuerdo/encapsulación de claves y firmas vulnerables.
 
 ##### No es QKD
 
-No requiere enlaces cuánticos ni hardware fotónico especial.
+QKD significa distribución cuántica de claves y requiere enlaces cuánticos y hardware especial.
 
 PQC suele combinarse con cifrado simétrico para los datos. NIST
 
@@ -493,7 +502,11 @@ Estándares NIST finalizados 13 ago 2024
 
 ##### ML‑KEM
 
-Encapsulación de claves basada en retículas modulares. Principal opción para establecer secretos.
+ML: retículas modulares.
+
+KEM: encapsulación de claves.
+
+Sirve para establecer secretos compartidos.
 
 antes Kyber
 
@@ -501,7 +514,11 @@ antes Kyber
 
 ##### ML‑DSA
 
-Firma digital basada en retículas modulares. Principal estándar de firmas PQC.
+ML: retículas modulares.
+
+DSA: firma digital.
+
+Principal estándar de firmas PQC.
 
 antes Dilithium
 
@@ -509,7 +526,11 @@ antes Dilithium
 
 ##### SLH‑DSA
 
-Firma sin estado basada en hashes. Alternativa con supuestos matemáticos distintos.
+SLH: hashes sin estado.
+
+DSA: firma digital.
+
+Alternativa basada en otros supuestos.
 
 antes SPHINCS+
 
@@ -564,9 +585,11 @@ buscar y reemplazar.
 
 - Claves, firmas y certificados más grandes
 
-- Protocolos, MTU, almacenamiento y rendimiento
+- Protocolos y MTU (tamaño máximo de transmisión)
 
-- PKI, HSM, firmware, arranque seguro y CI/CD
+- PKI (infraestructura de clave pública) y HSM (módulos de seguridad de hardware)
+
+- Firmware, arranque seguro y CI/CD (integración y entrega continuas)
 
 - Dependencias embebidas y terceros
 

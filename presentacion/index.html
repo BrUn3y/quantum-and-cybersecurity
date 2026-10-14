@@ -297,11 +297,11 @@
     <div class="content">
       <div class="steps">
         <div><h3>Mapear</h3><p>Expresar el problema en circuitos y observables.</p></div>
-        <div><h3>Optimizar</h3><p>Transpilar a la ISA, conectividad y compuertas de la QPU.</p></div>
+        <div><h3>Optimizar</h3><p>Adaptar el circuito a la ISA (arquitectura del conjunto de instrucciones) y a las conexiones de la QPU (procesador cuántico).</p></div>
         <div><h3>Ejecutar</h3><p>Usar primitivas como Sampler o Estimator.</p></div>
         <div><h3>Analizar</h3><p>Interpretar distribuciones, ruido e incertidumbre.</p></div>
       </div>
-      <p class="lede" style="margin-top:2rem">Qiskit SDK construye y transforma. IBM Quantum Platform autentica, agenda y ejecuta en QPUs.</p>
+      <p class="lede" style="margin-top:2rem">Qiskit construye y transforma los circuitos. IBM Quantum Platform los agenda y ejecuta en procesadores cuánticos.</p>
     </div>
     <div class="footer"><span>El taller recorre las cuatro etapas.</span><span>quantum.cloud.ibm.com</span></div>
     <aside class="speaker-notes">Qiskit es software abierto para circuitos, operadores y primitivas. El servicio de cómputo de IBM da acceso a hardware. Evita llamar a Qiskit “lenguaje”: es un SDK/ecosistema.</aside>
@@ -316,12 +316,12 @@
   </section>
 
   <section class="slide dark" data-section="02 · Amenaza" data-minutes="1.6">
-    <div class="topline"><span class="eyebrow">Capturar ahora, descifrar después</span><span class="section-chip">HNDL</span></div>
+    <div class="topline"><span class="eyebrow">Capturar ahora, descifrar después</span><span class="section-chip">Riesgo de datos longevos</span></div>
     <div class="content">
       <div class="timeline">
         <div class="milestone"><h3>Hoy</h3><p>Interceptar tráfico o robar archivos cifrados.</p></div>
         <div class="milestone"><h3>Espera</h3><p>Conservar lo que mantenga valor: historiales, diseños, diplomacia.</p></div>
-        <div class="milestone"><h3>CRQC</h3><p>Descifrar material protegido con criptografía pública vulnerable.</p></div>
+        <div class="milestone"><h3>CRQC</h3><p>Una computadora cuántica criptanalíticamente relevante podría descifrar criptografía pública vulnerable.</p></div>
       </div>
       <div class="callout" style="margin-top:3rem"><p class="lede">La variable urgente no es solo “cuándo llega la computadora”, sino <strong>cuánto tiempo debe vivir el secreto</strong>.</p></div>
     </div>
@@ -347,14 +347,14 @@
         <p class="eyebrow violet">Una clave secreta compartida</p>
         <h2>Simétrica</h2>
         <p class="crypto-summary">La misma clave cifra y descifra. Es rápida y protege el volumen principal de los datos.</p>
-        <p class="crypto-example"><strong>Ejemplo:</strong> AES</p>
+        <p class="crypto-example"><strong>AES:</strong> Estándar de Cifrado Avanzado.</p>
         <p class="crypto-impact"><strong>Impacto cuántico:</strong> Grover reduce cuadráticamente la búsqueda de claves; usar claves más largas conserva margen de seguridad.</p>
       </div>
       <div class="crypto-box asymmetric">
         <p class="eyebrow accent">Un par: pública + privada</p>
         <h2>Asimétrica</h2>
         <p class="crypto-summary">La pública se comparte; la privada se protege. Permite acordar claves, cifrar o firmar sin compartir antes un secreto.</p>
-        <p class="crypto-example"><strong>Ejemplos:</strong> RSA · DH · DSA · ECC</p>
+        <p class="crypto-example"><strong>RSA:</strong> Rivest–Shamir–Adleman (cifrado y firma)<br><strong>DH:</strong> Diffie–Hellman (acuerdo de claves)<br><strong>DSA:</strong> algoritmo de firma digital<br><strong>ECC:</strong> criptografía de curva elíptica</p>
         <p class="crypto-impact"><strong>Impacto cuántico:</strong> Shor rompe los supuestos de factorización y logaritmo discreto usados por estas familias.</p>
       </div>
     </div>
@@ -367,7 +367,7 @@
     <div class="content grid4">
       <div class="card blue-line"><span class="number">1</span><h3>Reformular</h3><p>Convertir factorización/log discreto en búsqueda de periodo.</p></div>
       <div class="card purple-line"><span class="number">2</span><h3>Superponer</h3><p>Evaluar coherentemente una función periódica.</p></div>
-      <div class="card magenta"><span class="number">3</span><h3>Interferir</h3><p>La QFT concentra amplitud en información del periodo.</p></div>
+      <div class="card magenta"><span class="number">3</span><h3>Interferir</h3><p>La QFT (transformada cuántica de Fourier) concentra amplitud en información del periodo.</p></div>
       <div class="card"><span class="number">4</span><h3>Recuperar</h3><p>Posprocesamiento clásico deriva factores o la clave.</p></div>
     </div>
     <div class="footer"><span>La ventaja viene de la estructura algebraica, no de “probar todas las claves”.</span><span>QFT = transformada cuántica de Fourier</span></div>
@@ -400,13 +400,13 @@
   </section>
 
   <section class="slide" data-section="03 · Defensa" data-minutes="1.5">
-    <div class="topline"><span class="eyebrow">PQC en una frase</span><span class="section-chip">Criptografía clásica</span></div>
+    <div class="topline"><span class="eyebrow">Criptografía poscuántica (PQC)</span><span class="section-chip">Criptografía clásica</span></div>
     <div class="content">
       <p class="big">Nuevas matemáticas.<br><span class="violet">Las mismas computadoras.</span></p>
       <div class="grid3" style="margin-top:2.2rem">
         <div class="card blue-line"><h3>Resiste</h3><p>Ataques conocidos de computadoras clásicas y cuánticas.</p></div>
         <div class="card purple-line"><h3>Reemplaza</h3><p>Acuerdo/encapsulación de claves y firmas vulnerables.</p></div>
-        <div class="card magenta"><h3>No es QKD</h3><p>No requiere enlaces cuánticos ni hardware fotónico especial.</p></div>
+        <div class="card magenta"><h3>No es QKD</h3><p>QKD significa distribución cuántica de claves y requiere enlaces cuánticos y hardware especial.</p></div>
       </div>
     </div>
     <div class="footer"><span>PQC suele combinarse con cifrado simétrico para los datos.</span><span>NIST</span></div>
@@ -416,9 +416,9 @@
   <section class="slide soft" data-section="03 · Defensa" data-minutes="2.4">
     <div class="topline"><span class="eyebrow">Estándares NIST finalizados</span><span class="section-chip">13 ago 2024</span></div>
     <div class="content grid3">
-      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem">Encapsulación de claves basada en retículas modulares. Principal opción para establecer secretos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.203" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Kyber</span></article>
-      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem">Firma digital basada en retículas modulares. Principal estándar de firmas PQC.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.204" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Dilithium</span></article>
-      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem">Firma sin estado basada en hashes. Alternativa con supuestos matemáticos distintos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.205" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes SPHINCS+</span></article>
+      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>KEM:</strong> encapsulación de claves.<br>Sirve para establecer secretos compartidos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.203" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Kyber</span></article>
+      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>DSA:</strong> firma digital.<br>Principal estándar de firmas PQC.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.204" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Dilithium</span></article>
+      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem"><strong>SLH:</strong> hashes sin estado.<br><strong>DSA:</strong> firma digital.<br>Alternativa basada en otros supuestos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.205" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes SPHINCS+</span></article>
     </div>
     <div class="footer"><span>NIST: listos para uso; no es necesario esperar futuros estándares.</span><span>FIPS 203 · 204 · 205</span></div>
     <aside class="speaker-notes">ML significa “Module-Lattice” (retículas modulares): ML-KEM es un mecanismo de encapsulación de claves y ML-DSA es un algoritmo de firma digital. No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo, pero no reemplaza la recomendación de empezar con los estándares finales.</aside>
@@ -442,7 +442,7 @@
     <div class="topline"><span class="eyebrow">Costo de cambiar</span><span class="section-chip">La capa olvidada</span></div>
     <div class="content grid2">
       <div><p class="big">PQC no es<br><span class="red">buscar y reemplazar.</span></p></div>
-      <div><ul class="clean"><li>Claves, firmas y certificados más grandes</li><li>Protocolos, MTU, almacenamiento y rendimiento</li><li>PKI, HSM, firmware, arranque seguro y CI/CD</li><li>Dependencias embebidas y terceros</li><li>Interoperabilidad, rollback y telemetría</li></ul></div>
+      <div><ul class="clean"><li>Claves, firmas y certificados más grandes</li><li>Protocolos y MTU (tamaño máximo de transmisión)</li><li>PKI (infraestructura de clave pública) y HSM (módulos de seguridad de hardware)</li><li>Firmware, arranque seguro y CI/CD (integración y entrega continuas)</li><li>Dependencias embebidas y terceros</li><li>Interoperabilidad, rollback y telemetría</li></ul></div>
     </div>
     <div class="footer"><span>Por eso la migración empieza con descubrimiento.</span><span>CISA Quantum‑Readiness</span></div>
     <aside class="speaker-notes">Da un ejemplo: cambiar una firma afecta certificados, validadores, formato de artefactos, dispositivos con buffers pequeños y procesos de recuperación. El inventario debe incluir dónde, para qué y por cuánto tiempo se usa criptografía.</aside>
