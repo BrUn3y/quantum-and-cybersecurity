@@ -162,7 +162,7 @@ Superposición Interferencia
 
 #### No son “muchas respuestas gratis”
 
-El algoritmo diseña interferencia: amplifica amplitudes útiles y cancela otras antes de medir.
+Un qubit en superposición combina las posibilidades de 0 y 1. Al medirlo, obtenemos solo uno de esos resultados.
 
 H|0⟩ = (|0⟩ + |1⟩)/√2
 
