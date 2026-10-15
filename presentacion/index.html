@@ -380,20 +380,22 @@
   </section>
 
   <section class="slide" data-section="02 · Amenaza" data-minutes="1.8">
-    <div class="topline"><span class="eyebrow">Calibrar el riesgo</span><span class="section-chip">Ni pánico ni espera</span></div>
+    <div class="topline"><span class="eyebrow">Qué hacer hoy</span><span class="section-chip">Prepararse sin pánico</span></div>
     <div class="content grid2">
       <div>
-        <h2>Hoy no existe una CRQC pública</h2>
-        <p class="lede" style="margin-top:1.5rem">El Bell state de dos qubits no escala mágicamente a romper RSA‑2048.</p>
+        <h2>La amenaza no es pública hoy.<br><span class="violet">La migración sí empieza hoy.</span></h2>
+        <p class="lede" style="margin-top:1.5rem">Cambiar criptografía en productos, datos y proveedores puede tardar años.</p>
       </div>
       <div>
-        <div class="success"><strong>Sí:</strong> inventariar, probar PQC, exigir hoja de ruta a proveedores y diseñar agilidad.</div>
-        <div class="note" style="margin-top:1rem"><strong>No:</strong> afirmar que “todo el cifrado está roto”. Shor amenaza clave pública; Grover ofrece una aceleración cuadrática sobre búsqueda simétrica.</div>
-        <p style="margin-top:1rem">Práctica común: claves simétricas robustas (p. ej., AES‑256) y migración de RSA/ECC hacia PQC.</p>
+        <div class="success"><strong>Empieza ahora:</strong> localiza dónde usas criptografía, prueba alternativas postcuánticas y pide planes de migración a tus proveedores.</div>
+        <div class="grid2" style="margin-top:1.5rem;gap:1.4rem">
+          <div class="card magenta"><h3>Shor</h3><p><strong>RSA y ECC</strong><br>Hay que migrarlos hacia PQC.</p></div>
+          <div class="card blue-line"><h3>Grover</h3><p><strong>AES</strong><br>Usa claves robustas, como AES‑256.</p></div>
+        </div>
       </div>
     </div>
-    <div class="footer"><span>Riesgo futuro + migración lenta = trabajo presente.</span><span>NIST PQC</span></div>
-    <aside class="speaker-notes">Un ataque de Grover ideal reduce aproximadamente de 2^k a 2^(k/2) consultas, pero con costos físicos significativos. Evita simplificar a “AES‑128 roto”; la recomendación práctica depende del perfil y estándares aplicables.</aside>
+    <div class="footer"><span>No todo el cifrado está roto: cada familia requiere una respuesta distinta.</span><span>Inventario → piloto → migración</span></div>
+    <aside class="speaker-notes">Hoy no existe públicamente una computadora cuántica criptanalíticamente relevante capaz de romper RSA-2048. Aun así, la migración tarda años. Shor amenaza la criptografía de clave pública basada en factorización y logaritmo discreto, como RSA y ECC. Grover ofrece una aceleración cuadrática ideal contra búsqueda exhaustiva simétrica, pero no equivale a romper AES de la misma forma; AES-256 conserva un margen amplio en el modelo ideal. La recomendación exacta depende del perfil y de los estándares aplicables.</aside>
   </section>
 
   <section class="slide blue" data-section="03 · Defensa" data-minutes="0.3">
