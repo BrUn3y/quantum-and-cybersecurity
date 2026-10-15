@@ -79,6 +79,7 @@
     .card.purple-line { border-color: var(--violet); }
     .card.blue-line { border-color: var(--blue); }
     .card p { margin-top: .7rem; font-size: clamp(.9rem, 1.45vw, 1.3rem); line-height: 1.35; }
+    .shor-steps { align-items: center; }
     .number { font-size: clamp(2.5rem, 5vw, 4.8rem); font-weight: 300; line-height: 1; }
     .agenda { display: grid; grid-template-columns: 4rem 1fr; align-items: center; border-top: 1px solid var(--line); padding: clamp(.55rem, 1.1vh, 1rem) 0; font-size: clamp(1rem, 1.7vw, 1.45rem); }
     .agenda:last-child { border-bottom: 1px solid var(--line); }
@@ -368,15 +369,14 @@
   </section>
 
   <section class="slide soft" data-section="02 · Amenaza" data-minutes="1.8">
-    <div class="topline"><span class="eyebrow">Shor sin humo</span><span class="section-chip">Intuición</span></div>
-    <div class="content grid4">
-      <div class="card blue-line"><span class="number">1</span><h3>Reformular</h3><p>Convertir factorización/log discreto en búsqueda de periodo.</p></div>
-      <div class="card purple-line"><span class="number">2</span><h3>Superponer</h3><p>Evaluar coherentemente una función periódica.</p></div>
-      <div class="card magenta"><span class="number">3</span><h3>Interferir</h3><p>La QFT (transformada cuántica de Fourier) concentra amplitud en información del periodo.</p></div>
-      <div class="card"><span class="number">4</span><h3>Recuperar</h3><p>Posprocesamiento clásico deriva factores o la clave.</p></div>
+    <div class="topline"><span class="eyebrow">Shor, en lenguaje simple</span><span class="section-chip">Patrón → pista → clave</span></div>
+    <div class="content grid3 shor-steps">
+      <div class="card blue-line"><span class="number">1</span><h3>Buscar una repetición</h3><p>RSA y ECC se apoyan en problemas con un patrón matemático difícil de encontrar con computadoras clásicas.</p></div>
+      <div class="card purple-line"><span class="number">2</span><h3>Hacerla visible</h3><p>El circuito cuántico usa interferencia para que la información sobre ese patrón destaque al medir.</p></div>
+      <div class="card magenta"><span class="number">3</span><h3>Usar la pista</h3><p>Un cálculo clásico convierte el patrón medido en los factores de RSA o en información de la clave privada.</p></div>
     </div>
-    <div class="footer"><span>La ventaja viene de la estructura algebraica, no de “probar todas las claves”.</span><span>QFT = transformada cuántica de Fourier</span></div>
-    <aside class="speaker-notes">Esta explicación basta para audiencia general. Si preguntan: la parte cuántica estima un periodo; fracciones continuas y máximo común divisor completan la factorización. No intentes prometer fechas o números fijos de qubits.</aside>
+    <div class="footer"><span>No prueba claves una por una: aprovecha la estructura matemática del problema.</span><span>Parte cuántica + parte clásica</span></div>
+    <aside class="speaker-notes">La palabra técnica para la repetición es “periodo”. La parte cuántica usa la transformada cuántica de Fourier para estimarlo; después, fracciones continuas y máximo común divisor completan la factorización de RSA. Para logaritmo discreto, incluida ECC, se explota una estructura periódica relacionada. No prometas fechas o números fijos de qubits.</aside>
   </section>
 
   <section class="slide" data-section="02 · Amenaza" data-minutes="1.8">
@@ -398,7 +398,7 @@
 
   <section class="slide blue" data-section="03 · Defensa" data-minutes="0.3">
     <div class="topline"><span class="eyebrow">03</span></div>
-    <div class="content section-title"><p class="eyebrow">Defender sin una QPU</p><h2>Criptografía poscuántica</h2></div>
+    <div class="content section-title"><p class="eyebrow">Defender sin una QPU</p><h2>Criptografía postcuántica</h2></div>
     <span class="section-number">03</span>
     <div class="footer"><span>Algoritmos clásicos · nuevos supuestos · estándares finales</span><span></span></div>
     <aside class="speaker-notes">Transición: “La defensa principal no requiere computadoras cuánticas”.</aside>
