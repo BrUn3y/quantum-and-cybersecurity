@@ -124,6 +124,10 @@
     .standard p { line-height: 1.4; }
     .standard .source-link { width: fit-content; font-size: clamp(.75rem, 1vw, .9rem); font-weight: 600; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: .12rem; }
     .standard .source-link:hover, .standard .source-link:focus-visible { color: var(--blue); outline: 2px solid currentColor; outline-offset: .25rem; }
+    .standards-stack { gap: clamp(1rem, 2vh, 1.6rem); }
+    .pqc-libraries { display: grid; grid-template-columns: 11rem repeat(3, minmax(0, 1fr)); gap: 1.2rem; align-items: start; padding-top: 1rem; border-top: 2px solid var(--ink); }
+    .pqc-library { font-size: clamp(.78rem, 1.05vw, .96rem); line-height: 1.35; color: var(--muted); }
+    .pqc-library a { display: block; width: fit-content; margin-bottom: .2rem; color: var(--ink); font-size: clamp(.95rem, 1.25vw, 1.12rem); font-weight: 600; text-decoration-thickness: .08em; text-underline-offset: .18em; }
     .flow { display: grid; grid-template-columns: repeat(5, 1fr); align-items: center; gap: .7rem; }
     .flow > div:not(.chev) { padding: 1rem; background: var(--paper); min-height: 8rem; }
     .flow .chev { text-align: center; font-size: 2rem; color: var(--violet); }
@@ -171,6 +175,7 @@
       .flow { grid-template-columns: 1fr; }
       .flow .chev { transform: rotate(90deg); }
       .crypto-map { grid-template-columns: 1fr; }
+      .pqc-libraries { grid-template-columns: 1fr; }
       .notes-panel { width: calc(100vw - 2rem); }
     }
     @media print {
@@ -415,13 +420,21 @@
 
   <section class="slide soft" data-section="03 · Defensa" data-minutes="2.4">
     <div class="topline"><span class="eyebrow">Estándares NIST finalizados</span><span class="section-chip">13 ago 2024</span></div>
-    <div class="content grid3">
-      <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>KEM:</strong> encapsulación de claves.<br>Sirve para establecer secretos compartidos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.203" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Kyber</span></article>
-      <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>DSA:</strong> firma digital.<br>Principal estándar de firmas PQC.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.204" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Dilithium</span></article>
-      <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem"><strong>SLH:</strong> hashes sin estado.<br><strong>DSA:</strong> firma digital.<br>Alternativa basada en otros supuestos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.205" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes SPHINCS+</span></article>
+    <div class="content standards-stack">
+      <div class="grid3">
+        <article class="standard"><span class="tag">FIPS 203</span><div><h3>ML‑KEM</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>KEM:</strong> encapsulación de claves.<br>Sirve para establecer secretos compartidos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.203" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Kyber</span></article>
+        <article class="standard"><span class="tag">FIPS 204</span><div><h3>ML‑DSA</h3><p style="margin-top:.8rem"><strong>ML:</strong> retículas modulares.<br><strong>DSA:</strong> firma digital.<br>Principal estándar de firmas PQC.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.204" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes Dilithium</span></article>
+        <article class="standard"><span class="tag">FIPS 205</span><div><h3>SLH‑DSA</h3><p style="margin-top:.8rem"><strong>SLH:</strong> hashes sin estado.<br><strong>DSA:</strong> firma digital.<br>Alternativa basada en otros supuestos.</p></div><a class="source-link" href="https://doi.org/10.6028/NIST.FIPS.205" target="_blank" rel="noopener">Consultar en NIST ↗</a><span class="pill">antes SPHINCS+</span></article>
+      </div>
+      <div class="pqc-libraries">
+        <span class="eyebrow">Dónde encontrarlos</span>
+        <div class="pqc-library"><a href="https://docs.openssl.org/3.5/man7/EVP_PKEY-ML-KEM/" target="_blank" rel="noopener">OpenSSL 3.5+ ↗</a>Soporte nativo para los tres estándares.</div>
+        <div class="pqc-library"><a href="https://www.bouncycastle.org/documentation/documentation-java/" target="_blank" rel="noopener">Bouncy Castle ↗</a>Implementaciones para Java y C#.</div>
+        <div class="pqc-library"><a href="https://openquantumsafe.org/liboqs/" target="_blank" rel="noopener">liboqs / OQS Provider ↗</a>Integración, pruebas y prototipos.</div>
+      </div>
     </div>
-    <div class="footer"><span>NIST: listos para uso; no es necesario esperar futuros estándares.</span><span>FIPS 203 · 204 · 205</span></div>
-    <aside class="speaker-notes">ML significa “Module-Lattice” (retículas modulares): ML-KEM es un mecanismo de encapsulación de claves y ML-DSA es un algoritmo de firma digital. No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo, pero no reemplaza la recomendación de empezar con los estándares finales.</aside>
+    <div class="footer"><span>Disponibilidad en una biblioteca ≠ certificación FIPS del módulo o despliegue.</span><span>Verifica versión y proveedor</span></div>
+    <aside class="speaker-notes">ML significa “Module-Lattice” (retículas modulares): ML-KEM es un mecanismo de encapsulación de claves y ML-DSA es un algoritmo de firma digital. No llames a los tres “algoritmos de cifrado”: uno es KEM y dos son firmas. OpenSSL 3.5 incorporó soporte nativo para ML-KEM, ML-DSA y SLH-DSA; Bouncy Castle ofrece implementaciones para Java y C#; liboqs y OQS Provider son especialmente útiles para integración, pruebas y prototipos. En producción, verifica versión, política de soporte y si necesitas un módulo validado. Fuentes: docs.openssl.org/3.5, bouncycastle.org/documentation y openquantumsafe.org/liboqs. FIPS 206/FN-DSA sigue una ruta separada. HQC fue seleccionado en 2025 como KEM de respaldo.</aside>
   </section>
 
   <section class="slide" data-section="03 · Defensa" data-minutes="1.8">
